@@ -24,7 +24,6 @@ function MainPage({ showIntro, onIntroComplete }) {
         <Home />
         <Skills />
         <Projects />
-        <Experience />
         <Contact />
       </main>
       <Footer />
