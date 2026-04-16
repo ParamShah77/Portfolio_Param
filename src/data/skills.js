@@ -1,0 +1,49 @@
+import {
+  DiJava,
+  DiPython,
+  DiJavascript1,
+  DiHtml5,
+  DiCss3,
+  DiReact,
+  DiNodejsSmall,
+  DiMongodb,
+  DiPostgresql,
+  DiGit,
+  DiGithubBadge,
+  DiMysql,
+} from "react-icons/di";
+import {
+  SiExpress,
+  SiFastapi,
+  SiTailwindcss,
+  SiNumpy,
+  SiPandas,
+  SiC,
+  SiLeetcode,
+} from "react-icons/si";
+import { TbApi, TbBrain } from "react-icons/tb";
+
+const skills = [
+  { name: "Java", icon: DiJava, color: "#f89820" },
+  { name: "Python", icon: DiPython, color: "#3776AB" },
+  { name: "JavaScript", icon: DiJavascript1, color: "#F7DF1E" },
+  { name: "C", icon: SiC, color: "#A8B9CC" },
+  { name: "HTML5", icon: DiHtml5, color: "#E34F26" },
+  { name: "CSS3", icon: DiCss3, color: "#1572B6" },
+  { name: "React.js", icon: DiReact, color: "#61DAFB" },
+  { name: "Node.js", icon: DiNodejsSmall, color: "#339933" },
+  { name: "Express.js", icon: SiExpress, color: "#ffffff" },
+  { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "MySQL", icon: DiMysql, color: "#4479A1" },
+  { name: "MongoDB", icon: DiMongodb, color: "#47A248" },
+  { name: "PostgreSQL", icon: DiPostgresql, color: "#4169E1" },
+  { name: "Git", icon: DiGit, color: "#F05032" },
+  { name: "GitHub", icon: DiGithubBadge, color: "#ffffff" },
+  { name: "NumPy", icon: SiNumpy, color: "#013243" },
+  { name: "Pandas", icon: SiPandas, color: "#150458" },
+  { name: "REST API", icon: TbApi, color: "#f97316" },
+  { name: "Machine Learning", icon: TbBrain, color: "#f97316" },
+];
+
+export default skills;

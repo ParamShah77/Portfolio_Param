@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark: #0a0a0a;
+  --color-card: #141414;
+  --color-surface: #1a1a1a;
+  --color-border-subtle: #2a2a2a;
+  --color-body: #e5e5e5;
+  --color-muted: #9ca3af;
+  --color-accent: #f97316;
+  --color-accent-hover: #fb923c;
+  --font-inter: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Global styles */
+* {
+  cursor: none !important;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0a0a0a;
+  color: #e5e5e5;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fb923c;
+}
+
+/* Selection */
+::selection {
+  background: rgba(249, 115, 22, 0.3);
+  color: #fff;
+}
+
+/* Terminal blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-cursor {
+  animation: blink 1s step-end infinite;
+  color: #f97316;
+}
+
+/* Custom bullet style */
+.orange-bullet li::before {
+  content: '▸';
+  color: #f97316;
+  font-weight: bold;
+  display: inline-block;
+  width: 1.2em;
+  margin-left: -1.2em;
+}
+
+.orange-bullet li {
+  padding-left: 1.2em;
+  list-style: none;
+}
+
+/* Loading bar animation */
+@keyframes loadBar {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
