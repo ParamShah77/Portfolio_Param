@@ -75,6 +75,7 @@ export default function Home() {
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
+          className="flex flex-col items-center text-center md:items-start md:text-left"
         >
           {/* Hello World tag */}
           <p
@@ -90,7 +91,7 @@ export default function Home() {
           </h1>
 
           {/* Animated role */}
-          <div className="mb-6 flex h-8 items-center text-lg text-[#fb923c] md:text-xl">
+          <div className="mb-6 flex h-8 items-center justify-center md:justify-start text-lg text-[#fb923c] md:text-xl">
             <span>{displayText}</span>
             <span className="terminal-cursor ml-0.5 text-[#f97316]">|</span>
           </div>
@@ -105,7 +106,7 @@ export default function Home() {
 
           {/* Education card */}
           <div
-            className="mb-8 max-w-md rounded-lg border border-[#2a2a2a] border-l-[#f97316] bg-[#1a1a1a] p-4"
+            className="mb-8 w-full max-w-md rounded-lg border border-[#2a2a2a] border-l-[#f97316] bg-[#1a1a1a] p-4 text-center sm:text-left"
             style={{ borderLeftWidth: "3px" }}
           >
             <p className="font-semibold text-white">
@@ -120,7 +121,7 @@ export default function Home() {
           </div>
 
           {/* CTA buttons */}
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap justify-center gap-4 md:justify-start">
             <button
               onClick={() =>
                 document
