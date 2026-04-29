@@ -65,7 +65,17 @@ export default function Projects() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className={`grid grid-cols-1 items-center gap-10 md:grid-cols-2 ${
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                if (offset.x < -50 || velocity.x < -500) {
+                  next();
+                } else if (offset.x > 50 || velocity.x > 500) {
+                  prev();
+                }
+              }}
+              className={`grid grid-cols-1 items-center gap-10 md:grid-cols-2 touch-pan-y active:cursor-grabbing ${
                 isEven ? "md:direction-rtl" : ""
               }`}
             >
