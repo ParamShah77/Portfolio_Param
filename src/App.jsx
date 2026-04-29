@@ -4,6 +4,7 @@ import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import IntroAnimation from "./components/IntroAnimation";
 import BackgroundCanvas from "./components/BackgroundCanvas";
+import Hero3D from "./components/sections/Hero3D";
 import Home from "./components/sections/Home";
 import Skills from "./components/sections/Skills";
 import Projects from "./components/sections/Projects";
@@ -21,6 +22,7 @@ function MainPage({ showIntro, onIntroComplete }) {
       <BackgroundCanvas />
       <Navbar />
       <main>
+        <Hero3D />
         <Home />
         <Skills />
         <Projects />
