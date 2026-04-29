@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import IntroAnimation from "./components/IntroAnimation";
@@ -86,6 +87,7 @@ export default function App() {
           }
         />
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 }

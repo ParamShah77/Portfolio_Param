@@ -75,9 +75,8 @@ export default function Projects() {
                   prev();
                 }
               }}
-              className={`grid grid-cols-1 items-center gap-10 md:grid-cols-2 touch-pan-y active:cursor-grabbing ${
-                isEven ? "md:direction-rtl" : ""
-              }`}
+              className={`grid grid-cols-1 items-center gap-10 md:grid-cols-2 touch-pan-y active:cursor-grabbing ${isEven ? "md:direction-rtl" : ""
+                }`}
             >
               {/* Text side */}
               <div className={isEven ? "md:order-2" : "md:order-1"}>
@@ -181,11 +180,10 @@ export default function Projects() {
                   setDirection(i > current ? 1 : -1);
                   setCurrent(i);
                 }}
-                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                  i === current
+                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${i === current
                     ? "scale-125 bg-[#f97316]"
                     : "bg-[#2a2a2a] hover:bg-[#9ca3af]"
-                }`}
+                  }`}
                 aria-label={`Go to project ${i + 1}`}
               />
             ))}

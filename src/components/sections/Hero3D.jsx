@@ -16,6 +16,8 @@ const DARK = "#111111";
 const GREY = "#2a2a2a";
 const HAT_W = "#e8e0d0";   // off-white cap
 
+
+
 /* ─────────────────────────────────────────────
    Reusable part helpers
 ───────────────────────────────────────────── */
