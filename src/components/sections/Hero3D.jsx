@@ -247,11 +247,36 @@ function FloatingOrb({ pos, size, speed, color }) {
 }
 
 /* ─────────────────────────────────────────────
+   Responsive Camera for Mobile
+───────────────────────────────────────────── */
+function ResponsiveCamera() {
+  const { viewport, camera } = useThree();
+  useFrame(() => {
+    const aspect = viewport.width / viewport.height;
+    let targetZ = 5.5;
+    let targetY = 0.3;
+    
+    if (aspect < 1) {
+      // For mobile (portrait), push camera further back so it scales down.
+      targetZ = 5.5 + (1 - aspect) * 4.5; 
+      // Lower the camera slightly so the avatar moves UP on the screen
+      // leaving plenty of room for the text at the bottom.
+      targetY = 0.1; 
+    }
+    
+    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.1);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.1);
+  });
+  return null;
+}
+
+/* ─────────────────────────────────────────────
    Scene wrapper
 ───────────────────────────────────────────── */
 function Scene({ mousePos, clicked }) {
   return (
     <>
+      <ResponsiveCamera />
       {/* Lighting */}
       <ambientLight intensity={0.6} />
       <directionalLight position={[4, 6, 4]} intensity={1.8} color="#fff8f0" castShadow />
@@ -358,16 +383,6 @@ export default function Hero3D() {
           </h1>
         </motion.div>
 
-        {/* Hint at bottom */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
-          className="absolute bottom-[10%] flex flex-col items-center gap-2 text-xs tracking-widest text-[#9ca3af]"
-        >
-          <span>Click the avatar · Scroll to explore</span>
-          <span className="inline-block h-5 w-[1px] animate-bounce bg-[#f97316]/50" />
-        </motion.p>
       </div>
 
       {/* ── Three.js Canvas ── */}
