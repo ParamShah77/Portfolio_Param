@@ -35,7 +35,7 @@ export default function Skills() {
   const currentRotation = useRef({ x: 0, y: 0 });
 
   // 3D Sphere Mathematics (Fibonacci lattice)
-  const RADIUS = 140; // Size of the sphere
+  const RADIUS = 200; // Size of the sphere
   const N = skills.length;
 
   const points = skills.map((skill, index) => {
@@ -55,7 +55,7 @@ export default function Skills() {
 
     const animate = () => {
       // Auto rotate slowly, plus mouse interaction
-      currentRotation.current.y += (mousePos.current.x * 0.00005) + 0.003; 
+      currentRotation.current.y += (mousePos.current.x * 0.00005) + 0.003;
       currentRotation.current.x += (mousePos.current.y * 0.00005) + 0.001;
 
       setRotation({
@@ -76,7 +76,7 @@ export default function Skills() {
     const rect = containerRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     // Calculate distance from center to influence rotation
     mousePos.current.x = e.clientX - centerX;
     mousePos.current.y = e.clientY - centerY;
@@ -140,7 +140,7 @@ export default function Skills() {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-          
+
           {/* Left Side: 3D Interactive Sphere */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -171,7 +171,7 @@ export default function Skills() {
                         style={{ color: p.skill.color || "#e5e5e5" }}
                       />
                       {/* Name tooltip shows only on items directly in front and hovered */}
-                      <span 
+                      <span
                         className={`absolute -bottom-6 text-xs font-bold text-white whitespace-nowrap bg-black/80 px-2 py-1 rounded transition-opacity duration-300 ${p.projZ > RADIUS * 0.5 ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'}`}
                       >
                         {p.skill.name}
@@ -186,7 +186,7 @@ export default function Skills() {
           {/* Right Side: Categorized Legend */}
           <div className="space-y-8 pl-0 lg:pl-10 relative">
             <div className="absolute left-0 lg:left-4 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-[#2a2a2a] to-transparent hidden lg:block"></div>
-            
+
             {categories.map((cat, idx) => (
               <motion.div
                 key={cat.title}
@@ -217,7 +217,7 @@ export default function Skills() {
 
         </div>
       </div>
-      
+
       {/* Background ambient light */}
       <div className="pointer-events-none absolute left-1/4 top-1/2 -z-10 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-[#f97316] opacity-5 blur-[120px]"></div>
     </section>

@@ -30,7 +30,7 @@ export default function BackgroundCanvas() {
     window.addEventListener("resize", resize);
 
     // Create particles
-    const NUM = 60;
+    const NUM = 80;
     if (particlesRef.current.length === 0) {
       for (let i = 0; i < NUM; i++) {
         particlesRef.current.push({
