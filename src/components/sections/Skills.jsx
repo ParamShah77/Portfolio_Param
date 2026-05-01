@@ -35,7 +35,7 @@ export default function Skills() {
   const currentRotation = useRef({ x: 0, y: 0 });
 
   // 3D Sphere Mathematics (Fibonacci lattice)
-  const RADIUS = 200; // Size of the sphere
+  const RADIUS = 160; // Size of the sphere
   const N = skills.length;
 
   const points = skills.map((skill, index) => {
