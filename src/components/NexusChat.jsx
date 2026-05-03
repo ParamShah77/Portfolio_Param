@@ -353,6 +353,14 @@ export default function NexusChat() {
                   </svg>
                 </motion.button>
                 <div className="nexus-status-dot" title="Online" aria-label="Online" />
+                <button
+                  className="nexus-mobile-close-btn"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close chat"
+                  type="button"
+                >
+                  ✕
+                </button>
               </div>
             </div>
 

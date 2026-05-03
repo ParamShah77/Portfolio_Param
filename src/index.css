@@ -480,6 +480,25 @@ body {
   40% { transform: scale(1); opacity: 1; }
 }
 
+.nexus-mobile-close-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nexus-mobile-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 /* Mobile Adjustments */
 @media (max-width: 520px) {
   .nexus-panel {
@@ -493,8 +512,21 @@ body {
     border: none;
   }
   
-  .nexus-fab {
+  .nexus-fab-closed {
     bottom: 16px;
     right: 16px;
+  }
+
+  /* Hide the FAB when the chat is open on mobile */
+  .nexus-fab-open {
+    display: none !important;
+  }
+
+  .nexus-mobile-close-btn {
+    display: flex;
+  }
+
+  .nexus-status-dot {
+    display: none;
   }
 }
