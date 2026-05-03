@@ -50,7 +50,7 @@ export default function Projects() {
             Featured <span className="text-[#f97316]">Projects</span>
           </h2>
           <p className="text-[#9ca3af]">
-            Things I&apos;ve built and worked on
+            Things I've built and worked on
           </p>
         </motion.div>
 
@@ -181,8 +181,8 @@ export default function Projects() {
                   setCurrent(i);
                 }}
                 className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${i === current
-                    ? "scale-125 bg-[#f97316]"
-                    : "bg-[#2a2a2a] hover:bg-[#9ca3af]"
+                  ? "scale-125 bg-[#f97316]"
+                  : "bg-[#2a2a2a] hover:bg-[#9ca3af]"
                   }`}
                 aria-label={`Go to project ${i + 1}`}
               />

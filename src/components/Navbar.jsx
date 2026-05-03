@@ -2,6 +2,20 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 
+function SparkleIcon({ className = "" }) {
+  return (
+    <svg 
+      className={className} 
+      width="1em" height="1em" 
+      viewBox="0 0 24 24" 
+      fill="none" stroke="currentColor" strokeWidth="2" 
+      strokeLinecap="round" strokeLinejoin="round"
+    >
+      <path d="M12 3v0c.53 4.41 3.59 7.47 8 8v0c-4.41.53-7.47 3.59-8 8v0c-.53-4.41-3.59-7.47-8-8v0c4.41-.53 7.47-3.59 8-8v0z"/>
+    </svg>
+  );
+}
+
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Skills", href: "#skills" },
@@ -100,6 +114,13 @@ export default function Navbar() {
           >
             Resume
           </Link>
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("toggleNexusChat"))}
+            className="flex items-center gap-2 rounded-full bg-[#f97316]/15 px-4 py-1.5 text-sm font-semibold text-[#f97316] transition-all hover:bg-[#f97316]/25 hover:shadow-[0_0_16px_rgba(249,115,22,0.6)]"
+            style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
+          >
+            <SparkleIcon className="text-base" /> NEXUS
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -137,6 +158,16 @@ export default function Navbar() {
           >
             Resume
           </Link>
+          <button
+            onClick={() => {
+              setMobileOpen(false);
+              window.dispatchEvent(new CustomEvent("toggleNexusChat"));
+            }}
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#f97316]/15 py-3 text-sm font-semibold text-[#f97316] transition-all"
+            style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
+          >
+            <SparkleIcon className="text-base" /> NEXUS
+          </button>
         </div>
       )}
     </nav>

@@ -73,7 +73,7 @@ export default function Cursor() {
       {/* Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed z-[9999] rounded-full"
+        className="pointer-events-none fixed z-[99999] rounded-full"
         style={{
           width: dotSize,
           height: dotSize,
@@ -86,7 +86,7 @@ export default function Cursor() {
       {/* Ring */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed z-[9998] rounded-full"
+        className="pointer-events-none fixed z-[99998] rounded-full"
         style={{
           width: ringSize,
           height: ringSize,

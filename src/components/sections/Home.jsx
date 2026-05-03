@@ -2,10 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ROLES = [
-  "B.Tech Computer Engineering Student",
+  "Computer Engineering Student",
   "Full Stack Developer",
   "AIML Enthusiast",
-  "Competitive Programmer",
+
+  // "Competitive Programmer",
 ];
 
 /*
@@ -82,7 +83,7 @@ export default function Home() {
             className="mb-3 text-sm tracking-widest text-[#f97316]"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
-            {"< Hello People />"}
+            {"< // Hello People !! Welcome to my digital footprint>"}
           </p>
 
           {/* Name */}
@@ -98,10 +99,7 @@ export default function Home() {
 
           {/* Summary */}
           <p className="mb-6 max-w-lg leading-relaxed text-[#9ca3af]">
-            3rd-year Computer Engineering student at SPIT, Mumbai with a minor
-            in IoT. I build full-stack systems that bridge software engineering,
-            machine learning, and real-world problem solving. Passionate about
-            creating things that actually work.
+            Hey, I'm Param — a 3rd-year Computer Engineering student at SPIT, Mumbai, with a minor in IoT. I love building things that actually work — from full-stack web apps to AI-powered systems. My core interests lie in DSA, Competitive Programming, and Full Stack Development, but I'm always exploring — whether it's cloud, ML, or blockchain. I'm someone who doesn't just learn concepts, but finds ways to wire them together into real projects. If it can be built, I want to build it.
           </p>
 
           {/* Education card */}
@@ -113,10 +111,10 @@ export default function Home() {
               Sardar Patel Institute of Technology (SPIT)
             </p>
             <p className="text-sm text-[#9ca3af]">
-              B.E. Computer Engineering • Minor in IoT
+              B.Tech Computer Engineering • Minor in IoT
             </p>
             <p className="mt-1 text-sm text-[#9ca3af]">
-              GPA: 8.20 • Aug 2023 – Present
+              GPA: 8.21 • Aug 2023 – Present
             </p>
           </div>
 

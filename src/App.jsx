@@ -12,6 +12,7 @@ import Projects from "./components/sections/Projects";
 import Experience from "./components/sections/Experience";
 import Contact from "./components/sections/Contact";
 import Footer from "./components/sections/Footer";
+import NexusChat from "./components/NexusChat";
 
 // Lazy-load ResumePage for code-splitting
 const ResumePage = lazy(() => import("./pages/ResumePage"));
@@ -30,6 +31,7 @@ function MainPage({ showIntro, onIntroComplete }) {
         <Contact />
       </main>
       <Footer />
+      <NexusChat />
     </>
   );
 }
