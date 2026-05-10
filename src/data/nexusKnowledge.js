@@ -11,7 +11,7 @@ Full Name: Param Nikhil Shah
 Location: Mumbai, India
 Currently: 3rd-year B.Tech Computer Engineering student at Sardar Patel Institute of Technology (SPIT), Mumbai. Minor in IoT.
 GPA: 8.21 | Expected Graduation: Aug 2027
-Email: paramnikhilshah@gmail.com
+Email: param.shah23@spit.ac.in
 GitHub: https://github.com/ParamShah77
 LinkedIn: https://www.linkedin.com/in/param-shah-1b3b3b25a/
 
@@ -65,7 +65,7 @@ Other: DSA, Competitive Programming, IoT
    - Managed Spoorthi Sports Fest with 5,000+ participants
 
 == CONTACT ==
-Email: paramnikhilshah@gmail.com
+Email: param.shah23@spit.ac.in
 GitHub: https://github.com/ParamShah77
 LinkedIn: https://www.linkedin.com/in/param-shah-1b3b3b25a/
 Location: Mumbai, India
