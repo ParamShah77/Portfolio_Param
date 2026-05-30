@@ -515,6 +515,12 @@ body {
   .nexus-fab-closed {
     bottom: 16px;
     right: 16px;
+    width: 56px !important;
+    padding: 0 !important;
+  }
+
+  .nexus-fab-text {
+    display: none !important;
   }
 
   /* Hide the FAB when the chat is open on mobile */
