@@ -11,6 +11,7 @@ import {
   DiGit,
   DiGithubBadge,
   DiMysql,
+  DiPhp,
 } from "react-icons/di";
 import {
   SiExpress,
@@ -19,9 +20,11 @@ import {
   SiNumpy,
   SiPandas,
   SiC,
-  SiLeetcode,
+  SiScikitlearn,
+  SiGooglegemini,
 } from "react-icons/si";
-import { TbApi, TbBrain } from "react-icons/tb";
+import { TbApi, TbBrain, TbLanguage, TbBinaryTree } from "react-icons/tb";
+import { FaProjectDiagram } from "react-icons/fa";
 
 const skills = [
   { name: "Java", icon: DiJava, color: "#f89820" },
@@ -44,6 +47,12 @@ const skills = [
   { name: "Pandas", icon: SiPandas, color: "#150458" },
   { name: "REST API", icon: TbApi, color: "#f97316" },
   { name: "Machine Learning", icon: TbBrain, color: "#f97316" },
+  { name: "PHP", icon: DiPhp, color: "#777BB4" },
+  { name: "NLP", icon: TbLanguage, color: "#8B5CF6" },
+  { name: "Scikit-learn", icon: SiScikitlearn, color: "#F7931E" },
+  { name: "Gemini API", icon: SiGooglegemini, color: "#4285F4" },
+  { name: "Data Structures", icon: TbBinaryTree, color: "#06B6D4" },
+  { name: "Algorithms", icon: FaProjectDiagram, color: "#10B981" },
 ];
 
 export default skills;

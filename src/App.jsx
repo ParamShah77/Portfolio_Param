@@ -16,6 +16,7 @@ import NexusChat from "./components/NexusChat";
 
 // Lazy-load ResumePage for code-splitting
 const ResumePage = lazy(() => import("./pages/ResumePage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function MainPage({ showIntro, onIntroComplete }) {
   return (
@@ -85,6 +86,20 @@ export default function App() {
             >
               <BackgroundCanvas />
               <ResumePage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense
+              fallback={
+                <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
+                  <div className="text-[#f97316]">Loading...</div>
+                </div>
+              }
+            >
+              <NotFound />
             </Suspense>
           }
         />

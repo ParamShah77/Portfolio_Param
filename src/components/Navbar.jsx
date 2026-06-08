@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 
 function SparkleIcon({ className = "" }) {
@@ -128,48 +129,57 @@ export default function Navbar() {
           className="text-2xl text-[#e5e5e5] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <HiX /> : <HiMenuAlt3 />}
         </button>
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="border-t border-[#2a2a2a] bg-[#0a0a0a]/95 px-6 py-4 backdrop-blur-lg md:hidden">
-          {NAV_LINKS.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => handleNavClick(link.href)}
-              className={`block w-full py-3 text-left text-sm font-medium transition-colors duration-300 ${
-                activeSection === link.href.slice(1)
-                  ? "text-[#f97316]"
-                  : "text-[#9ca3af]"
-              }`}
-              aria-label={`Navigate to ${link.label}`}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="border-t border-[#2a2a2a] bg-[#0a0a0a]/95 px-6 py-4 backdrop-blur-lg md:hidden overflow-hidden"
+          >
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link.href}
+                onClick={() => handleNavClick(link.href)}
+                className={`block w-full py-3 text-left text-sm font-medium transition-colors duration-300 ${
+                  activeSection === link.href.slice(1)
+                    ? "text-[#f97316]"
+                    : "text-[#9ca3af]"
+                }`}
+                aria-label={`Navigate to ${link.label}`}
+              >
+                {link.label}
+              </button>
+            ))}
+            <Link
+              to="/resume"
+              className="block w-full py-3 text-left text-sm font-medium text-[#9ca3af] transition-colors duration-300 hover:text-[#f97316]"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Navigate to Resume page"
             >
-              {link.label}
+              Resume
+            </Link>
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                window.dispatchEvent(new CustomEvent("toggleNexusChat"));
+              }}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#f97316]/15 py-3 text-sm font-semibold text-[#f97316] transition-all"
+              style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
+            >
+              <SparkleIcon className="text-base" /> NEXUS
             </button>
-          ))}
-          <Link
-            to="/resume"
-            className="block w-full py-3 text-left text-sm font-medium text-[#9ca3af] transition-colors duration-300 hover:text-[#f97316]"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Navigate to Resume page"
-          >
-            Resume
-          </Link>
-          <button
-            onClick={() => {
-              setMobileOpen(false);
-              window.dispatchEvent(new CustomEvent("toggleNexusChat"));
-            }}
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#f97316]/15 py-3 text-sm font-semibold text-[#f97316] transition-all"
-            style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
-          >
-            <SparkleIcon className="text-base" /> NEXUS
-          </button>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

@@ -5,9 +5,9 @@ import NEXUS_SYSTEM_PROMPT from "../data/nexusKnowledge";
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+// In production (Vercel), use the serverless proxy to keep the API key safe.
+// In local dev, fall back to the client-side key if the proxy isn't available.
+const API_ENDPOINT = '/api/chat';
 
 // ---------------------------------------------------------------------------
 // Rotating chip sets — each bot reply cycles to the next group
@@ -66,6 +66,89 @@ function TypingDots() {
 }
 
 // ---------------------------------------------------------------------------
+// Simple markdown-to-JSX renderer for bot messages
+// ---------------------------------------------------------------------------
+function FormattedMessage({ text }) {
+  if (!text) return null;
+
+  // Process the text into segments
+  const segments = [];
+  const lines = text.split('\n');
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Code blocks (```)
+    if (line.trim().startsWith('```')) {
+      const codeLines = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith('```')) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      i++; // skip closing ```
+      segments.push({ type: 'code', content: codeLines.join('\n') });
+      continue;
+    }
+
+    // Regular line
+    segments.push({ type: 'text', content: line });
+    i++;
+  }
+
+  return (
+    <div className="nexus-formatted">
+      {segments.map((seg, idx) => {
+        if (seg.type === 'code') {
+          return (
+            <pre key={idx} className="nexus-code-block">
+              <code>{seg.content}</code>
+            </pre>
+          );
+        }
+
+        // Process inline formatting
+        let content = seg.content;
+        if (!content.trim()) return <br key={idx} />;
+
+        // Convert **bold** and *italic* and `code`
+        const parts = [];
+        const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g;
+        let lastIndex = 0;
+        let match;
+
+        while ((match = regex.exec(content)) !== null) {
+          if (match.index > lastIndex) {
+            parts.push(content.slice(lastIndex, match.index));
+          }
+          if (match[2]) {
+            parts.push(<strong key={`b-${idx}-${match.index}`}>{match[2]}</strong>);
+          } else if (match[3]) {
+            parts.push(<em key={`i-${idx}-${match.index}`}>{match[3]}</em>);
+          } else if (match[4]) {
+            parts.push(<code key={`c-${idx}-${match.index}`} className="nexus-inline-code">{match[4]}</code>);
+          }
+          lastIndex = match.index + match[0].length;
+        }
+        if (lastIndex < content.length) {
+          parts.push(content.slice(lastIndex));
+        }
+
+        // Check if it's a list item
+        const bulletMatch = content.match(/^\s*[-•*]\s+(.*)/);
+        const numberedMatch = content.match(/^\s*\d+\.\s+(.*)/);
+        if (bulletMatch || numberedMatch) {
+          return <div key={idx} className="nexus-list-item">{'•'} {parts.length > 0 ? parts : content.replace(/^\s*[-•*\d.]+\s+/, '')}</div>;
+        }
+
+        return <p key={idx} className="nexus-paragraph">{parts.length > 0 ? parts : content}</p>;
+      })}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Individual message bubble
 // ---------------------------------------------------------------------------
 function MessageBubble({ msg }) {
@@ -83,7 +166,7 @@ function MessageBubble({ msg }) {
         </div>
       )}
       <div className={`nexus-bubble ${isUser ? "nexus-bubble--user" : "nexus-bubble--bot"}`}>
-        {msg.typing ? <TypingDots /> : msg.content}
+        {msg.typing ? <TypingDots /> : (isUser ? msg.content : <FormattedMessage text={msg.content} />)}
       </div>
     </motion.div>
   );
@@ -170,7 +253,7 @@ export default function NexusChat() {
       const fetchWithRetry = async (retries = 2) => {
         for (let i = 0; i <= retries; i++) {
           try {
-            const res = await fetch(`${GEMINI_ENDPOINT}?key=${API_KEY}`, {
+            const res = await fetch(API_ENDPOINT, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(body),
@@ -215,9 +298,7 @@ export default function NexusChat() {
           {
             id: Date.now() + 1,
             role: "bot",
-            content: API_KEY
-              ? `Oops, something went wrong. ${err.message}`
-              : "⚠️ No API key found. Add VITE_GEMINI_API_KEY to your .env file to activate me!",
+            content: `Oops, something went wrong. ${err.message}`,
           },
         ]);
       } finally {

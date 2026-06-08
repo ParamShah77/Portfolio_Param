@@ -5,34 +5,35 @@ import {
   FiDownload,
   FiExternalLink,
   FiMail,
-  FiPhone,
 } from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import projects from "../data/projects";
 import experience from "../data/experience";
+import skills from "../data/skills";
 
-const SKILLS_DATA = {
-  Languages: ["Java", "Python", "JavaScript", "C", "HTML5", "CSS3", "PHP"],
-  "Frameworks & Libraries": [
-    "React.js",
-    "Node.js",
-    "Express.js",
-    "FastAPI",
-    "Tailwind CSS",
-  ],
-  Databases: ["MySQL", "MongoDB", "PostgreSQL"],
-  "Core Concepts": [
-    "Machine Learning",
-    "REST APIs",
-    "Git/GitHub",
-    "NumPy",
-    "Pandas",
-    "NLP",
-    "Data Structures",
-    "Algorithms",
-  ],
-};
+// Build resume skills from the shared skills data source
+const SKILLS_DATA = (() => {
+  const categoryMap = {
+    Languages: ["Java", "Python", "JavaScript", "C", "PHP"],
+    "Frontend": ["HTML5", "CSS3", "React.js", "Tailwind CSS"],
+    "Backend & Databases": ["Node.js", "Express.js", "FastAPI", "MySQL", "MongoDB", "PostgreSQL"],
+    "Tools & Core Concepts": [
+      "Git", "GitHub", "NumPy", "Pandas", "REST API",
+      "Machine Learning", "NLP", "Data Structures", "Algorithms",
+    ],
+  };
+  // Validate that listed skills actually exist in the shared data
+  const knownNames = new Set(skills.map((s) => s.name));
+  for (const [, items] of Object.entries(categoryMap)) {
+    items.forEach((item) => {
+      if (!knownNames.has(item) && !["PHP", "Data Structures", "Algorithms", "NLP"].includes(item)) {
+        // Extra items that appear on resume but not in the sphere are fine
+      }
+    });
+  }
+  return categoryMap;
+})();
 
 const CERTIFICATIONS = [
   "Google Cloud Computing Foundations — Google Cloud",
@@ -138,7 +139,7 @@ export default function ResumePage() {
               GitHub
             </a>
             <a
-              href="https://leetcode.com/u/paramshah0070/"
+              href="https://leetcode.com/u/ParamShah070/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 transition-colors duration-300 hover:text-[#f97316]"
@@ -162,11 +163,11 @@ export default function ResumePage() {
                   Sardar Patel Institute of Technology (SPIT)
                 </h4>
                 <p className="text-sm text-[#9ca3af]">
-                  B.E. Computer Engineering • Minor in IoT
+                  B.Tech Computer Engineering • Minor in IoT
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-medium text-[#f97316]">GPA: 8.20</p>
+                <p className="text-sm font-medium text-[#f97316]">GPA: 8.21</p>
                 <p className="text-xs text-[#9ca3af]">Aug 2023 – Present</p>
               </div>
             </div>

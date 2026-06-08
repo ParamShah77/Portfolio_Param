@@ -536,3 +536,51 @@ body {
     display: none;
   }
 }
+
+/* NEXUS Markdown Formatting */
+.nexus-formatted p {
+  margin: 0;
+}
+
+.nexus-formatted .nexus-paragraph + .nexus-paragraph {
+  margin-top: 8px;
+}
+
+.nexus-formatted strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.nexus-formatted em {
+  font-style: italic;
+  color: #d1d5db;
+}
+
+.nexus-formatted .nexus-inline-code {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.nexus-formatted .nexus-code-block {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #e5e5e5;
+  line-height: 1.5;
+}
+
+.nexus-formatted .nexus-list-item {
+  padding-left: 8px;
+  margin: 4px 0;
+  color: #e5e5e5;
+}
+
