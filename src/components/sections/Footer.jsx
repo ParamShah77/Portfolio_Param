@@ -105,7 +105,7 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Tech Stack */}
+          {/* Get in Touch */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -113,18 +113,21 @@ export default function Footer() {
             viewport={{ once: true }}
           >
             <h3 className="mb-6 text-sm font-semibold uppercase tracking-wider text-white">
-              Built With
+              Get in Touch
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {TECH_STACK.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-md border border-[#2a2a2a] bg-[#141414] px-3 py-1.5 text-xs text-[#9ca3af]"
+            <ul className="space-y-4">
+              <li>
+                <a
+                  href="mailto:paramshah0070@gmail.com"
+                  className="text-sm text-[#9ca3af] transition-colors hover:text-[#f97316]"
                 >
-                  {tech}
-                </span>
-              ))}
-            </div>
+                  paramshah0070@gmail.com
+                </a>
+              </li>
+              <li className="text-sm text-[#9ca3af]">
+                Mumbai, India
+              </li>
+            </ul>
           </motion.div>
         </div>
 

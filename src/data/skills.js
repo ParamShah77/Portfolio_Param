@@ -23,8 +23,18 @@ import {
   SiScikitlearn,
   SiGooglegemini,
 } from "react-icons/si";
-import { TbApi, TbBrain, TbLanguage, TbBinaryTree } from "react-icons/tb";
-import { FaProjectDiagram } from "react-icons/fa";
+import {
+  TbApi,
+  TbBrain,
+  TbLanguage,
+  TbBinaryTree,
+  TbTerminal,
+  TbCpu,
+  TbNetwork,
+  TbCode,
+  TbScale,
+} from "react-icons/tb";
+import { FaProjectDiagram, FaRobot, FaDatabase, FaDice, FaSync } from "react-icons/fa";
 
 const skills = [
   { name: "Java", icon: DiJava, color: "#f89820" },
@@ -53,6 +63,15 @@ const skills = [
   { name: "Gemini API", icon: SiGooglegemini, color: "#4285F4" },
   { name: "Data Structures", icon: TbBinaryTree, color: "#06B6D4" },
   { name: "Algorithms", icon: FaProjectDiagram, color: "#10B981" },
+  { name: "XGBoost", icon: SiScikitlearn, color: "#3776AB" },
+  { name: "DoWhy", icon: TbScale, color: "#FF5722" },
+  { name: "AutoGen", icon: FaRobot, color: "#4F46E5" },
+  { name: "Monte Carlo", icon: FaDice, color: "#E11D48" },
+  { name: "Object-Oriented Programming", icon: TbCode, color: "#10B981" },
+  { name: "Operating Systems", icon: TbCpu, color: "#3B82F6" },
+  { name: "Computer Networks", icon: TbNetwork, color: "#6366F1" },
+  { name: "Agile Development", icon: FaSync, color: "#F59E0B" },
+  { name: "Database Management Systems", icon: FaDatabase, color: "#EC4899" },
 ];
 
 export default skills;

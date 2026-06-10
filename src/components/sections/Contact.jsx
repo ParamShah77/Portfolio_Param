@@ -103,10 +103,10 @@ export default function Contact() {
                 <div className="flex flex-col items-center lg:items-start">
                   <h3 className="mb-1 text-lg font-semibold text-white">Email</h3>
                   <a
-                    href="mailto:param.shah23@spit.ac.in"
+                    href="mailto:paramshah0070@gmail.com"
                     className="text-[#9ca3af] transition-colors hover:text-[#f97316]"
                   >
-                    param.shah23@spit.ac.in
+                    paramshah0070@gmail.com
                   </a>
                 </div>
               </div>

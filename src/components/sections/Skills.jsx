@@ -12,19 +12,45 @@ const categories = [
   },
   {
     title: "Frameworks & Libs",
-    items: getSkills(["React.js", "Node.js", "Express.js", "FastAPI", "Tailwind CSS"]),
+    items: getSkills([
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "FastAPI",
+      "Tailwind CSS",
+      "NumPy",
+      "Pandas",
+      "REST API",
+    ]),
   },
   {
-    title: "AI & Data",
-    items: getSkills(["Machine Learning", "NumPy", "Pandas"]),
+    title: "AI & Simulations",
+    items: getSkills([
+      "Machine Learning",
+      "NLP",
+      "XGBoost",
+      "DoWhy",
+      "AutoGen",
+      "Monte Carlo",
+      "Scikit-learn",
+      "Gemini API",
+    ]),
   },
   {
-    title: "Databases",
-    items: getSkills(["MySQL", "MongoDB", "PostgreSQL"]),
+    title: "Databases & Tools",
+    items: getSkills(["MySQL", "MongoDB", "PostgreSQL", "Git", "GitHub"]),
   },
   {
-    title: "Tools & APIs",
-    items: getSkills(["Git", "GitHub", "REST API"]),
+    title: "Core Concepts",
+    items: getSkills([
+      "Data Structures",
+      "Algorithms",
+      "Object-Oriented Programming",
+      "Operating Systems",
+      "Computer Networks",
+      "Agile Development",
+      "Database Management Systems",
+    ]),
   },
 ];
 

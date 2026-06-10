@@ -5,6 +5,7 @@ import {
   FiDownload,
   FiExternalLink,
   FiMail,
+  FiPhone,
 } from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
@@ -15,20 +16,42 @@ import skills from "../data/skills";
 // Build resume skills from the shared skills data source
 const SKILLS_DATA = (() => {
   const categoryMap = {
-    Languages: ["Java", "Python", "JavaScript", "C", "PHP"],
-    "Frontend": ["HTML5", "CSS3", "React.js", "Tailwind CSS"],
-    "Backend & Databases": ["Node.js", "Express.js", "FastAPI", "MySQL", "MongoDB", "PostgreSQL"],
-    "Tools & Core Concepts": [
-      "Git", "GitHub", "NumPy", "Pandas", "REST API",
-      "Machine Learning", "NLP", "Data Structures", "Algorithms",
+    Languages: ["Java", "Python", "JavaScript", "C", "HTML", "CSS"],
+    "Frameworks & Libraries": [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "FastAPI",
+      "REST API",
+      "Tailwind CSS",
+      "NumPy",
+      "Pandas",
+    ],
+    "Databases & Tools": ["MySQL", "MongoDB", "PostgreSQL", "Git", "GitHub"],
+    "Core Concepts": [
+      "Data Structures and Algorithms",
+      "Object-Oriented Programming",
+      "Operating Systems",
+      "Computer Networks",
+      "Agile Development",
+      "Database Management Systems",
+      "NLP",
+      "Machine Learning",
     ],
   };
   // Validate that listed skills actually exist in the shared data
   const knownNames = new Set(skills.map((s) => s.name));
+  const normalized = (name) => {
+    if (name === "HTML") return "HTML5";
+    if (name === "CSS") return "CSS3";
+    if (name === "Data Structures and Algorithms") return "Data Structures";
+    return name;
+  };
   for (const [, items] of Object.entries(categoryMap)) {
     items.forEach((item) => {
-      if (!knownNames.has(item) && !["PHP", "Data Structures", "Algorithms", "NLP"].includes(item)) {
-        // Extra items that appear on resume but not in the sphere are fine
+      const norm = normalized(item);
+      if (!knownNames.has(norm)) {
+        console.warn(`Resume page skill "${item}" is missing from the technical skills database.`);
       }
     });
   }
@@ -36,6 +59,8 @@ const SKILLS_DATA = (() => {
 })();
 
 const CERTIFICATIONS = [
+  "SCOPE - Certification by JP Morgan Chase in Agile methodology and Cloud — Aug 2024 – Present",
+  "JEE - Secured a rank of 33.1k across India in JEE-Mains and qualified for JEE Advanced — Jun 2023",
   "Google Cloud Computing Foundations — Google Cloud",
   "Machine Learning Specialization — Coursera (Andrew Ng)",
   "DSA Self-Paced — GeeksforGeeks",
@@ -102,21 +127,21 @@ export default function ResumePage() {
             Param Nikhil Shah
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-[#9ca3af]">
-            {/* <a
-              href="tel:+91XXXXXXXXXX"
+            <a
+              href="tel:+917447780270"
               className="flex items-center gap-1.5 transition-colors duration-300 hover:text-[#f97316]"
               aria-label="Phone number"
             >
               <FiPhone className="text-[#f97316]" />
-              +91 XXXXXXXXXX
-            </a> */}
+              +91 74477 80270
+            </a>
             <a
-              href="mailto:param.shah23@spit.ac.in"
+              href="mailto:paramshah0070@gmail.com"
               className="flex items-center gap-1.5 transition-colors duration-300 hover:text-[#f97316]"
               aria-label="Email"
             >
               <FiMail className="text-[#f97316]" />
-              param.shah23@spit.ac.in
+              paramshah0070@gmail.com
             </a>
             <a
               href="https://www.linkedin.com/in/param-shah-405877290/"
@@ -160,10 +185,10 @@ export default function ResumePage() {
             <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
               <div>
                 <h4 className="text-lg font-bold text-white">
-                  Sardar Patel Institute of Technology (SPIT)
+                  Sardar Patel Institute of Technology (S.P.I.T.)
                 </h4>
                 <p className="text-sm text-[#9ca3af]">
-                  B.Tech Computer Engineering • Minor in IoT
+                  Bachelors of Computer Engineering • Minor in Internet of Things
                 </p>
               </div>
               <div className="text-right">
@@ -188,9 +213,20 @@ export default function ResumePage() {
                     {project.date}
                   </span>
                 </div>
-                <p className="mb-3 text-sm leading-relaxed text-[#e5e5e5]/80">
-                  {project.description}
-                </p>
+                {project.bullets && project.bullets.length > 0 ? (
+                  <ul className="mb-3 space-y-2">
+                    {project.bullets.map((bullet, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm text-[#e5e5e5]/80">
+                        <span className="mt-0.5 text-[#f97316]">▸</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mb-3 text-sm leading-relaxed text-[#e5e5e5]/80">
+                    {project.description}
+                  </p>
+                )}
                 <div className="flex flex-wrap gap-1.5">
                   {project.tech.map((t) => (
                     <span
@@ -208,22 +244,18 @@ export default function ResumePage() {
 
         {/* Skills */}
         <ResumeSection title="Skills">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="space-y-4 rounded-xl border border-[#2a2a2a] bg-[#141414] p-6">
             {Object.entries(SKILLS_DATA).map(([category, items]) => (
-              <div key={category} className="rounded-xl border border-[#2a2a2a] bg-[#141414] p-4">
-                <h4 className="mb-3 text-sm font-semibold text-[#f97316]">
-                  {category}
+              <div
+                key={category}
+                className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4 pb-4 border-b border-[#2a2a2a]/40 last:border-0 last:pb-0"
+              >
+                <h4 className="w-full shrink-0 text-sm font-bold text-[#f97316] sm:w-[200px]">
+                  {category}:
                 </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {items.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2.5 py-1 text-xs text-[#e5e5e5]"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
+                <p className="text-sm leading-relaxed text-[#e5e5e5]/90">
+                  {items.join(", ")}
+                </p>
               </div>
             ))}
           </div>
