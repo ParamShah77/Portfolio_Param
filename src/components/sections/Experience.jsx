@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { FiChevronDown } from "react-icons/fi";
 import experience from "../../data/experience";
 
+// Only professional roles are featured here. The campus leadership positions
+// are still listed on /resume under Positions of Responsibility.
+const WORK = experience.filter((e) => e.type === "work");
+
 export default function Experience() {
+  if (WORK.length === 0) return null;
+
   return (
     <section id="experience" className="relative z-10 py-24">
       <div className="mx-auto max-w-3xl px-6">
@@ -14,15 +20,15 @@ export default function Experience() {
           className="mb-16 text-center"
         >
           <h2 className="mb-3 text-3xl font-bold text-white md:text-4xl">
-            <span className="text-[#f97316]">Experience</span> & Leadership
+            Work <span className="text-[#f97316]">Experience</span>
           </h2>
           <p className="text-[#9ca3af]">
-            Where I&apos;ve worked and what I&apos;ve led
+            Where I&apos;ve worked and what I built there
           </p>
         </motion.div>
 
         <div className="relative">
-          {experience.map((exp, index) => (
+          {WORK.map((exp, index) => (
             <div key={exp.id}>
               {/* Experience card */}
               <motion.div
@@ -66,7 +72,7 @@ export default function Experience() {
               </motion.div>
 
               {/* Connector between cards */}
-              {index < experience.length - 1 && (
+              {index < WORK.length - 1 && (
                 <div className="flex flex-col items-center py-6">
                   <div className="h-12 w-px border-l border-dashed border-[#2a2a2a]" />
                   <motion.div
