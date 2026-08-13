@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 
@@ -20,6 +20,7 @@ function SparkleIcon({ className = "" }) {
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,13 +62,29 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setMobileOpen(false);
+
+    // Coming from another route (e.g. /resume): navigate within the SPA and
+    // scroll once the section exists. Setting window.location here would
+    // throw away the app and re-download the whole bundle.
     if (location.pathname !== "/") {
-      window.location.href = "/" + href;
+      navigate("/", { state: { scrollTo: href } });
       return;
     }
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Handle the scroll target handed over by a cross-route navigation above.
+  useEffect(() => {
+    const target = location.state?.scrollTo;
+    if (location.pathname !== "/" || !target) return;
+
+    // One frame so the freshly mounted sections are laid out and measurable.
+    const raf = requestAnimationFrame(() => {
+      document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [location]);
 
   return (
     <nav
@@ -88,8 +106,8 @@ export default function Navbar() {
           PS
         </button>
 
-        {/* Desktop links */}
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Desktop links — tighter gap at md so the extra Experience link fits */}
+        <div className="hidden items-center gap-5 md:flex lg:gap-8">
           {NAV_LINKS.map((link) => (
             <button
               key={link.href}

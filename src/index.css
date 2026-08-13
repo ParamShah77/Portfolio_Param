@@ -15,14 +15,60 @@
 
 /* Global styles */
 * {
-  cursor: none !important;
   box-sizing: border-box;
+}
+
+/*
+ * The custom cursor replaces the native one, but only where it actually
+ * renders: <Cursor /> mounts for viewports >= 768px, and a touch device has
+ * no pointer to replace. Applying `cursor: none` to `*` unconditionally left
+ * anyone on a narrow desktop window with no visible cursor at all.
+ */
+@media (pointer: fine) and (min-width: 768px) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  /* Keep the text caret visible — typing with no I-beam feels broken. */
+  body.has-custom-cursor input,
+  body.has-custom-cursor textarea,
+  body.has-custom-cursor [contenteditable="true"] {
+    cursor: text !important;
+  }
 }
 
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   max-width: 100%;
+}
+
+/*
+ * Reduced motion. The site leans hard on animation, so honour the OS setting:
+ * strip transitions and looping keyframes, and stop smooth-scroll hijacking.
+ * Components that animate via JS (Three.js, canvas, framer-motion) check
+ * usePrefersReducedMotion() separately — CSS can't reach those.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Purely decorative loops have nothing to convey when stopped. */
+  .nexus-fab-pulse,
+  .terminal-cursor {
+    animation: none !important;
+  }
 }
 
 body {
@@ -97,6 +143,24 @@ body {
   100% { width: 100%; }
 }
 
+/*
+ * Entrance fade for the resume page.
+ *
+ * Deliberately CSS rather than framer-motion: the resume renders inside a
+ * <Suspense> boundary, and motion components revealed that way were staying
+ * stuck at their `initial` opacity: 0 — leaving the whole page blank. A CSS
+ * animation starts from the visible end state if it never runs, so the worst
+ * case here is "no animation", not "no content".
+ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.fade-up {
+  animation: fadeUp 0.5s ease-out both;
+}
+
 /* ==========================================================================
    NEXUS AI Chat Widget Styles
    ========================================================================== */
@@ -111,7 +175,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none; /* using custom cursor from your portfolio */
   z-index: 9999;
   border: none;
   outline: none;

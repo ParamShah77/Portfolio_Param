@@ -24,6 +24,7 @@ const SOCIALS = [
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];

@@ -1,13 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import NEXUS_SYSTEM_PROMPT from "../data/nexusKnowledge";
 
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-// In production (Vercel), use the serverless proxy to keep the API key safe.
-// In local dev, fall back to the client-side key if the proxy isn't available.
-const API_ENDPOINT = '/api/chat';
+// All model configuration lives in the serverless proxy (api/chat.js) — the
+// system prompt and knowledge base deliberately never reach the client bundle.
+const API_ENDPOINT = "/api/chat";
+
+// Keep the request small and the conversation cheap. The server enforces its
+// own limits too; these just avoid round-trips that are guaranteed to fail.
+const MAX_HISTORY = 10;
+const MAX_INPUT_CHARS = 1000;
 
 // ---------------------------------------------------------------------------
 // Rotating chip sets — each bot reply cycles to the next group
@@ -19,7 +23,7 @@ const CHIP_SETS = [
     "What's his tech stack? 🛠️",
   ],
   [
-    "Tell me about his experience",
+    "What did he do at Barclays? 🏦",
     "How can I contact Param? 📩",
     "What's his strongest skill?",
   ],
@@ -228,26 +232,15 @@ export default function NexusChat() {
       setInput("");
       setLoading(true);
 
-      // Build conversation history for context
+      // Send the recent turns for context. Older messages are dropped so a long
+      // session doesn't grow the token cost of every subsequent reply.
       const history = messages
         .filter((m) => !m.typing && m.id !== "greeting")
-        .map((m) => ({
-          role: m.role === "user" ? "user" : "model",
-          parts: [{ text: m.content }],
-        }));
+        .slice(-MAX_HISTORY)
+        .map((m) => ({ role: m.role === "user" ? "user" : "model", content: m.content }));
 
       const body = {
-        system_instruction: {
-          parts: [{ text: NEXUS_SYSTEM_PROMPT }],
-        },
-        contents: [
-          ...history,
-          { role: "user", parts: [{ text }] },
-        ],
-        generationConfig: {
-          temperature: 0.75,
-          maxOutputTokens: 512,
-        },
+        messages: [...history, { role: "user", content: text }],
       };
 
       const fetchWithRetry = async (retries = 2) => {
@@ -259,30 +252,23 @@ export default function NexusChat() {
               body: JSON.stringify(body),
             });
 
-            if (!res.ok) {
-              const err = await res.json();
-              // If it's a 503 (high demand) or 429 (rate limit) and we have retries left, wait and retry
-              if ((res.status === 503 || res.status === 429) && i < retries) {
-                await new Promise((r) => setTimeout(r, 1500 * (i + 1))); // Exponential-ish backoff
-                continue;
-              }
-              throw new Error(err?.error?.message || "API error");
-            }
-            return await res.json();
+            if (res.ok) return await res.json();
+
+            const payload = await res.json().catch(() => ({}));
+            const message = payload?.error || "NEXUS is unavailable right now.";
+
+            // 4xx means the request itself is the problem (bad shape, rate
+            // limited) — retrying would only make a 429 worse. Retry 5xx only.
+            if (res.status < 500 || i === retries) throw new Error(message);
           } catch (e) {
-            // Catch network errors and retry
             if (i === retries) throw e;
-            await new Promise((r) => setTimeout(r, 1500 * (i + 1)));
           }
+          await new Promise((r) => setTimeout(r, 1200 * (i + 1)));
         }
       };
 
       try {
-        const data = await fetchWithRetry(2);
-
-        const reply =
-          data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-          "Hmm, I didn't get a response. Try again?";
+        const { reply } = await fetchWithRetry(2);
 
         setMessages((prev) => [
           ...prev.filter((m) => m.id !== "typing"),
@@ -298,7 +284,9 @@ export default function NexusChat() {
           {
             id: Date.now() + 1,
             role: "bot",
-            content: `Oops, something went wrong. ${err.message}`,
+            content:
+              err.message ||
+              "Oops, something went wrong. Try again, or email Param at paramshah0070@gmail.com.",
           },
         ]);
       } finally {
@@ -489,9 +477,10 @@ export default function NexusChat() {
                 className="nexus-input"
                 placeholder="Ask about Param's projects, skills..."
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT_CHARS))}
                 onKeyDown={handleKeyDown}
                 rows={1}
+                maxLength={MAX_INPUT_CHARS}
                 aria-label="Type your message"
                 disabled={loading}
               />

@@ -34,6 +34,7 @@ const SOCIALS = [
 
 export default function Contact() {
   const formRef = useRef(null);
+  const honeypotRef = useRef(null);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +48,16 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.message) return;
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    // Honeypot: a real person never sees this field, so anything in it came
+    // from a bot filling every input on the page. Pretend it succeeded.
+    if (honeypotRef.current?.value) {
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
 
     setStatus("sending");
 
@@ -159,6 +169,19 @@ export default function Contact() {
             {/* Decorative background glow for the card */}
             <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-[#f97316]/10 blur-[60px] pointer-events-none"></div>
 
+            {/* Honeypot — hidden from people, irresistible to bots.
+                Not type="hidden": many bots skip those but fill visible text
+                inputs. Kept out of the tab order and the a11y tree instead. */}
+            <input
+              ref={honeypotRef}
+              type="text"
+              name="company_website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] h-0 w-0 opacity-0"
+            />
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="relative z-10">
                 <label
@@ -174,6 +197,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  autoComplete="name"
                   className="w-full rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] px-4 py-3 text-sm text-white outline-none transition-all duration-300 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/50"
                   placeholder="John Doe"
                   aria-label="Your name"
@@ -185,7 +209,7 @@ export default function Contact() {
                   htmlFor="contact-email"
                   className="mb-2 block text-sm font-medium text-[#9ca3af]"
                 >
-                  Email <span className="text-xs text-[#6b7280]">(optional)</span>
+                  Email <span className="text-[#f97316]">*</span>
                 </label>
                 <input
                   id="contact-email"
@@ -193,9 +217,11 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  required
+                  autoComplete="email"
                   className="w-full rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] px-4 py-3 text-sm text-white outline-none transition-all duration-300 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/50"
                   placeholder="john@example.com"
-                  aria-label="Your email (optional)"
+                  aria-label="Your email"
                 />
               </div>
             </div>

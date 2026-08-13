@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiArrowLeft } from "react-icons/fi";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 export default function NotFound() {
+  useDocumentTitle("Page Not Found | Param Shah");
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#0a0a0a] px-6 text-center text-[#e5e5e5]">
       <motion.div

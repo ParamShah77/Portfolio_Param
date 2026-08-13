@@ -8,6 +8,13 @@ export default function Cursor() {
   const [hovering, setHovering] = useState(false);
   const [clicking, setClicking] = useState(false);
 
+  // Suppress the native cursor only while this component is actually mounted,
+  // so unmounting (narrow window, touch device) always restores it.
+  useEffect(() => {
+    document.body.classList.add("has-custom-cursor");
+    return () => document.body.classList.remove("has-custom-cursor");
+  }, []);
+
   useEffect(() => {
     const handleMove = (e) => {
       mouse.current = { x: e.clientX, y: e.clientY };

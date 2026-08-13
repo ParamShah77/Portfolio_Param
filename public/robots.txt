@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# The chat proxy is not content — no reason to crawl it.
+Disallow: /api/
+
+Sitemap: https://paramshah77.vercel.app/sitemap.xml

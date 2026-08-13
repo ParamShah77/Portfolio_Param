@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePrefersReducedMotion } from "../../hooks/useMediaQuery";
 
 const ROLES = [
   "Computer Engineering Student",
@@ -10,16 +11,18 @@ const ROLES = [
 ];
 
 /*
- * Photo rotation: Vite's import.meta.glob eagerly imports all images
- * from /src/assets/images/. Drop photo1.jpg, photo2.jpg, etc. into
- * that folder and they will automatically appear in the rotation.
+ * Photo rotation. Only the optimized/ directory is globbed — full-resolution
+ * phone photos are several MB each and get rendered into a circle at most
+ * 400px wide. Drop new photos into src/assets/images/ and run
+ * `npm run optimize:images` to add them to the rotation.
  */
-const imageModules = import.meta.glob(
-  "/src/assets/images/*.{jpg,jpeg,png,webp}",
-  { eager: true, import: "default" }
-);
+const imageModules = import.meta.glob("/src/assets/images/optimized/*.webp", {
+  eager: true,
+  import: "default",
+});
 
 export default function Home() {
+  const reducedMotion = usePrefersReducedMotion();
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -36,6 +39,11 @@ export default function Home() {
     const current = ROLES[roleIndex];
     let timer;
 
+    // A character-by-character loop is exactly the kind of motion the OS
+    // setting is asking us to stop. The roles are rendered statically below
+    // instead, so there's nothing to animate here.
+    if (reducedMotion) return;
+
     if (!isDeleting && displayText.length < current.length) {
       timer = setTimeout(() => {
         setDisplayText(current.slice(0, displayText.length + 1));
@@ -47,21 +55,26 @@ export default function Home() {
         setDisplayText(current.slice(0, displayText.length - 1));
       }, 30);
     } else if (isDeleting && displayText.length === 0) {
-      setIsDeleting(false);
-      setRoleIndex((prev) => (prev + 1) % ROLES.length);
+      // Deferred rather than set synchronously: updating state directly in the
+      // effect body cascades an extra render, and the short pause reads as a
+      // natural beat between roles.
+      timer = setTimeout(() => {
+        setIsDeleting(false);
+        setRoleIndex((prev) => (prev + 1) % ROLES.length);
+      }, 400);
     }
 
     return () => clearTimeout(timer);
-  }, [displayText, isDeleting, roleIndex]);
+  }, [displayText, isDeleting, roleIndex, reducedMotion]);
 
   // Photo rotation — cycle every 4 seconds
   useEffect(() => {
-    if (photos.length <= 1) return;
+    if (photos.length <= 1 || reducedMotion) return;
     const interval = setInterval(() => {
       setPhotoIndex((prev) => (prev + 1) % photos.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, [photos.length]);
+  }, [photos.length, reducedMotion]);
 
   const hasPhotos = photos.length > 0;
 
@@ -91,15 +104,22 @@ export default function Home() {
             Param Nikhil Shah
           </h1>
 
-          {/* Animated role */}
-          <div className="mb-6 flex h-8 items-center justify-center md:justify-start text-lg text-[#fb923c] md:text-xl">
-            <span>{displayText}</span>
-            <span className="terminal-cursor ml-0.5 text-[#f97316]">|</span>
+          {/* Role — typed one at a time, or listed in full when the visitor
+              has asked for reduced motion, so no content is lost either way. */}
+          <div className="mb-6 flex min-h-8 items-center justify-center text-lg text-[#fb923c] md:justify-start md:text-xl">
+            {reducedMotion ? (
+              <span>{ROLES.join(" · ")}</span>
+            ) : (
+              <>
+                <span>{displayText}</span>
+                <span className="terminal-cursor ml-0.5 text-[#f97316]">|</span>
+              </>
+            )}
           </div>
 
           {/* Summary */}
           <p className="mb-6 max-w-lg leading-relaxed text-[#9ca3af]">
-            Hey, I'm Param — a 3rd-year Computer Engineering student at SPIT, Mumbai, with a minor in IoT. I love building things that actually work — from full-stack web apps to AI-powered systems. My core interests lie in DSA, Competitive Programming, and Full Stack Development, but I'm always exploring — whether it's cloud, ML, or blockchain. I'm someone who doesn't just learn concepts, but finds ways to wire them together into real projects. If it can be built, I want to build it.
+            Hey, I'm Param — a final-year Computer Engineering student at SPIT, Mumbai, with a minor in IoT. I most recently spent my summer at Barclays as a Technology Intern, building Spring Boot services and REST APIs in Pune. I love building things that actually work — from full-stack web apps to AI-powered systems. My core interests lie in DSA, Competitive Programming, and Full Stack Development, but I'm always exploring — whether it's cloud, ML, or blockchain. I'm someone who doesn't just learn concepts, but finds ways to wire them together into real projects. If it can be built, I want to build it.
           </p>
 
           {/* Education card */}
@@ -114,7 +134,7 @@ export default function Home() {
               B.Tech Computer Engineering • Minor in IoT
             </p>
             <p className="mt-1 text-sm text-[#9ca3af]">
-              GPA: 8.21 • Aug 2023 – Present
+              CGPA: 8.29 • Aug 2023 – 2027 (expected)
             </p>
           </div>
 

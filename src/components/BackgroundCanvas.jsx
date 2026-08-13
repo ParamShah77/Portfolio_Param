@@ -1,18 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "../hooks/useMediaQuery";
+
+const NUM_PARTICLES = 80;
+const CONNECT_DISTANCE = 150;
 
 export default function BackgroundCanvas() {
   const canvasRef = useRef(null);
-  const [scrollPercent, setScrollPercent] = useState(0);
   const particlesRef = useRef([]);
   const animId = useRef(null);
+  // Scroll progress lives in a ref, not state: it changes on every scroll
+  // frame, and re-rendering (or restarting the animation loop) for it was the
+  // single most expensive thing this component did.
+  const scrollRef = useRef(0);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
       const docHeight =
         document.documentElement.scrollHeight - window.innerHeight;
-      setScrollPercent(docHeight > 0 ? scrollTop / docHeight : 0);
+      scrollRef.current = docHeight > 0 ? window.scrollY / docHeight : 0;
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -22,20 +30,30 @@ export default function BackgroundCanvas() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
+    // Match the backing store to the device pixel ratio so particles aren't
+    // blurry on high-DPI screens, but cap it — at 3x the connection pass gets
+    // expensive for no visible gain.
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    // Create particles
-    const NUM = 80;
     if (particlesRef.current.length === 0) {
-      for (let i = 0; i < NUM; i++) {
+      for (let i = 0; i < NUM_PARTICLES; i++) {
         particlesRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+          x: Math.random() * width,
+          y: Math.random() * height,
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.3,
           r: 1.5 + Math.random() * 1.5,
@@ -43,11 +61,11 @@ export default function BackgroundCanvas() {
       }
     }
 
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const sp = scrollPercent;
+    const paint = (animate) => {
+      ctx.clearRect(0, 0, width, height);
+      const sp = scrollRef.current;
 
-      // Determine alpha based on scroll zone
+      // Particle opacity fades as the visitor scrolls past the hero
       let particleAlpha;
       if (sp < 0.2) {
         particleAlpha = 0.3;
@@ -65,68 +83,102 @@ export default function BackgroundCanvas() {
         const g = Math.round(10 + blend * 5);
         const b = Math.round(10 + blend * 10);
         ctx.fillStyle = `rgba(${r},${g},${b},0.03)`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, width, height);
       }
 
       // Contact zone orange glow
       if (sp > 0.7) {
-        const glowAlpha = (sp - 0.7) / 0.3 * 0.06;
+        const glowAlpha = ((sp - 0.7) / 0.3) * 0.06;
         const gradient = ctx.createRadialGradient(
-          canvas.width / 2, canvas.height, 0,
-          canvas.width / 2, canvas.height, canvas.height * 0.6
+          width / 2, height, 0,
+          width / 2, height, height * 0.6
         );
         gradient.addColorStop(0, `rgba(249,115,22,${glowAlpha})`);
         gradient.addColorStop(1, "transparent");
         ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, width, height);
       }
 
-      // Draw particles and connections
       const particles = particlesRef.current;
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+      ctx.fillStyle = `rgba(249, 115, 22, ${particleAlpha})`;
+
+      for (const p of particles) {
+        if (animate) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(249, 115, 22, ${particleAlpha})`;
         ctx.fill();
-      });
+      }
 
-      // Draw connections (only in hero zone for perf)
+      // Connections are O(n²), so only draw them in the hero zone
       if (sp < 0.35) {
         const connectionAlpha = particleAlpha * 0.4;
+        ctx.lineWidth = 0.5;
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150) {
+            const distSq = dx * dx + dy * dy;
+            // Compare squared distances to skip a sqrt per pair
+            if (distSq < CONNECT_DISTANCE * CONNECT_DISTANCE) {
+              const dist = Math.sqrt(distSq);
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(249, 115, 22, ${connectionAlpha * (1 - dist / 150)})`;
-              ctx.lineWidth = 0.5;
+              ctx.strokeStyle = `rgba(249, 115, 22, ${
+                connectionAlpha * (1 - dist / CONNECT_DISTANCE)
+              })`;
               ctx.stroke();
             }
           }
         }
       }
-
-      animId.current = requestAnimationFrame(draw);
     };
 
+    if (reducedMotion) {
+      // Draw the field once and leave it there — the particles are decorative,
+      // so a still frame keeps the look without the drifting motion.
+      paint(false);
+      const repaint = () => paint(false);
+      window.addEventListener("resize", repaint);
+      window.addEventListener("scroll", repaint, { passive: true });
+      return () => {
+        window.removeEventListener("resize", resize);
+        window.removeEventListener("resize", repaint);
+        window.removeEventListener("scroll", repaint);
+      };
+    }
+
+    const draw = () => {
+      paint(true);
+      animId.current = requestAnimationFrame(draw);
+    };
     animId.current = requestAnimationFrame(draw);
+
+    // Don't burn frames on a background canvas nobody is looking at.
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (animId.current) cancelAnimationFrame(animId.current);
+        animId.current = null;
+      } else if (!animId.current) {
+        animId.current = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
       if (animId.current) cancelAnimationFrame(animId.current);
     };
-  }, [scrollPercent]);
+  }, [reducedMotion]);
 
   return (
     <canvas

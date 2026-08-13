@@ -17,7 +17,7 @@ export default function Experience() {
             <span className="text-[#f97316]">Experience</span> & Leadership
           </h2>
           <p className="text-[#9ca3af]">
-            Roles and responsibilities I&apos;ve held
+            Where I&apos;ve worked and what I&apos;ve led
           </p>
         </motion.div>
 
@@ -33,14 +33,26 @@ export default function Experience() {
                 className="rounded-xl border border-[#2a2a2a] bg-[#141414] p-6"
                 style={{ borderLeftWidth: "4px", borderLeftColor: "#f97316" }}
               >
-                <div className="mb-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                <div className="mb-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
                   <div>
+                    {exp.type === "work" && (
+                      <span className="mb-2 inline-block rounded-full bg-[#f97316]/10 px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#f97316]">
+                        Internship
+                      </span>
+                    )}
                     <h3 className="text-xl font-bold text-white">{exp.role}</h3>
                     <p className="text-[#f97316]">{exp.organization}</p>
                   </div>
-                  <span className="text-sm text-[#9ca3af] whitespace-nowrap">
-                    {exp.duration}
-                  </span>
+                  <div className="shrink-0 sm:text-right">
+                    <span className="block text-sm text-[#9ca3af] whitespace-nowrap">
+                      {exp.duration}
+                    </span>
+                    {exp.location && (
+                      <span className="block text-xs text-[#6b7280]">
+                        {exp.location}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <ul className="mt-4 space-y-3">

@@ -75,8 +75,7 @@ export default function Projects() {
                   prev();
                 }
               }}
-              className={`grid grid-cols-1 items-center gap-10 md:grid-cols-2 touch-pan-y active:cursor-grabbing ${isEven ? "md:direction-rtl" : ""
-                }`}
+              className="grid grid-cols-1 items-center gap-10 touch-pan-y md:grid-cols-2"
             >
               {/* Text side */}
               <div className={isEven ? "md:order-2" : "md:order-1"}>

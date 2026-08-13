@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect, lazy, Suspense } from "react";
+import { useState, useCallback, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
+import { useHasFinePointer, usePrefersReducedMotion } from "./hooks/useMediaQuery";
 import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import IntroAnimation from "./components/IntroAnimation";
@@ -28,6 +29,7 @@ function MainPage({ showIntro, onIntroComplete }) {
         <Hero3D />
         <Home />
         <Skills />
+        <Experience />
         <Projects />
         <Contact />
       </main>
@@ -38,6 +40,8 @@ function MainPage({ showIntro, onIntroComplete }) {
 }
 
 export default function App() {
+  const reducedMotion = usePrefersReducedMotion();
+
   const [showIntro, setShowIntro] = useState(() => {
     // Check sessionStorage so intro plays only once per session
     const played = sessionStorage.getItem("introPlayed");
@@ -52,24 +56,22 @@ export default function App() {
     sessionStorage.setItem("introPlayed", "true");
   }, []);
 
-  // Hide custom cursor on mobile/touch devices
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  // The custom cursor only makes sense where there's a real pointer to
+  // replace. This mirrors the media query in index.css that hides the
+  // native one, so the two can never disagree.
+  const hasFinePointer = useHasFinePointer();
 
   return (
     <BrowserRouter>
-      {!isMobile && <Cursor />}
+      {hasFinePointer && <Cursor />}
       <Routes>
         <Route
           path="/"
           element={
             <MainPage
-              showIntro={showIntro}
+              // The intro is a full-screen particle explosion — skip it
+              // entirely rather than animate it slower.
+              showIntro={showIntro && !reducedMotion}
               onIntroComplete={handleIntroComplete}
             />
           }

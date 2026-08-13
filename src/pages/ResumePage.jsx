@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   FiArrowLeft,
   FiDownload,
@@ -12,6 +11,7 @@ import { SiLeetcode } from "react-icons/si";
 import projects from "../data/projects";
 import experience from "../data/experience";
 import skills from "../data/skills";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 // Build resume skills from the shared skills data source
 const SKILLS_DATA = (() => {
@@ -19,15 +19,25 @@ const SKILLS_DATA = (() => {
     Languages: ["Java", "Python", "JavaScript", "C", "HTML", "CSS"],
     "Frameworks & Libraries": [
       "React.js",
+      "Spring Boot",
       "Node.js",
       "Express.js",
       "FastAPI",
+      "Thymeleaf",
       "REST API",
       "Tailwind CSS",
       "NumPy",
       "Pandas",
     ],
-    "Databases & Tools": ["MySQL", "MongoDB", "PostgreSQL", "Git", "GitHub"],
+    "Databases & Tools": [
+      "MySQL",
+      "MongoDB",
+      "PostgreSQL",
+      "Git",
+      "GitHub",
+      "Maven",
+      "Linux",
+    ],
     "Core Concepts": [
       "Data Structures and Algorithms",
       "Object-Oriented Programming",
@@ -58,6 +68,9 @@ const SKILLS_DATA = (() => {
   return categoryMap;
 })();
 
+const WORK = experience.filter((e) => e.type === "work");
+const LEADERSHIP = experience.filter((e) => e.type !== "work");
+
 const CERTIFICATIONS = [
   "SCOPE - Certification by JP Morgan Chase in Agile methodology and Cloud — Aug 2024 – Present",
   "JEE - Secured a rank of 33.1k across India in JEE-Mains and qualified for JEE Advanced — Jun 2023",
@@ -68,8 +81,16 @@ const CERTIFICATIONS = [
 ];
 
 export default function ResumePage() {
+  useDocumentTitle(
+    "Resume | Param Nikhil Shah",
+    "Resume of Param Nikhil Shah — final-year Computer Engineering student at SPIT Mumbai, former Barclays Technology Intern. Experience, projects, skills, and certifications."
+  );
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#e5e5e5]">
+    // relative z-10 to sit above the fixed BackgroundCanvas (z-0), the same
+    // way every section on the main page does. Without it the particle field
+    // paints over the resume text.
+    <div className="relative z-10 min-h-screen bg-[#0a0a0a] text-[#e5e5e5]">
       {/* Top bar */}
       <div
         className="sticky top-0 z-50 border-b border-[#2a2a2a]"
@@ -117,12 +138,7 @@ export default function ResumePage() {
       {/* Resume content */}
       <div className="mx-auto max-w-[900px] px-6 py-12">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 text-center"
-        >
+        <div className="fade-up mb-12 text-center">
           <h2 className="mb-4 text-4xl font-extrabold text-white">
             Param Nikhil Shah
           </h2>
@@ -174,7 +190,7 @@ export default function ResumePage() {
               LeetCode
             </a>
           </div>
-        </motion.div>
+        </div>
 
         {/* Education */}
         <ResumeSection title="Education">
@@ -192,12 +208,23 @@ export default function ResumePage() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-medium text-[#f97316]">GPA: 8.21</p>
-                <p className="text-xs text-[#9ca3af]">Aug 2023 – Present</p>
+                <p className="text-sm font-medium text-[#f97316]">CGPA: 8.29</p>
+                <p className="text-xs text-[#9ca3af]">Aug 2023 – 2027 (expected)</p>
               </div>
             </div>
           </div>
         </ResumeSection>
+
+        {/* Experience */}
+        {WORK.length > 0 && (
+          <ResumeSection title="Experience">
+            <div className="space-y-4">
+              {WORK.map((exp) => (
+                <ExperienceCard key={exp.id} exp={exp} />
+              ))}
+            </div>
+          </ResumeSection>
+        )}
 
         {/* Projects */}
         <ResumeSection title="Projects">
@@ -276,32 +303,8 @@ export default function ResumePage() {
         {/* Positions of Responsibility */}
         <ResumeSection title="Positions of Responsibility">
           <div className="space-y-4">
-            {experience.map((exp) => (
-              <div
-                key={exp.id}
-                className="rounded-xl border border-[#2a2a2a] bg-[#141414] p-5"
-                style={{ borderLeftWidth: "4px", borderLeftColor: "#f97316" }}
-              >
-                <div className="mb-2 flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                  <div>
-                    <h4 className="font-bold text-white">{exp.role}</h4>
-                    <p className="text-sm text-[#f97316]">
-                      {exp.organization}
-                    </p>
-                  </div>
-                  <span className="text-xs text-[#9ca3af]">
-                    {exp.duration}
-                  </span>
-                </div>
-                <ul className="mt-3 space-y-2">
-                  {exp.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-[#e5e5e5]/80">
-                      <span className="mt-0.5 text-[#f97316]">▸</span>
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {LEADERSHIP.map((exp) => (
+              <ExperienceCard key={exp.id} exp={exp} />
             ))}
           </div>
         </ResumeSection>
@@ -310,18 +313,43 @@ export default function ResumePage() {
   );
 }
 
+function ExperienceCard({ exp }) {
+  return (
+    <div
+      className="rounded-xl border border-[#2a2a2a] bg-[#141414] p-5"
+      style={{ borderLeftWidth: "4px", borderLeftColor: "#f97316" }}
+    >
+      <div className="mb-2 flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
+        <div>
+          <h4 className="font-bold text-white">{exp.role}</h4>
+          <p className="text-sm text-[#f97316]">{exp.organization}</p>
+        </div>
+        <div className="text-left sm:text-right">
+          <span className="block text-xs text-[#9ca3af]">{exp.duration}</span>
+          {exp.location && (
+            <span className="block text-xs text-[#6b7280]">{exp.location}</span>
+          )}
+        </div>
+      </div>
+      <ul className="mt-3 space-y-2">
+        {exp.bullets.map((bullet, i) => (
+          <li key={i} className="flex items-start gap-3 text-sm text-[#e5e5e5]/80">
+            <span className="mt-0.5 text-[#f97316]">▸</span>
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function ResumeSection({ title, children }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="mb-10"
-    >
+    <div className="fade-up mb-10">
       <h3 className="mb-5 border-b border-[#2a2a2a] pb-2 text-xl font-bold text-[#f97316]">
         {title}
       </h3>
       {children}
-    </motion.div>
+    </div>
   );
 }
