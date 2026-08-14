@@ -1,7 +1,7 @@
 # Param Shah — Portfolio
 
 Personal portfolio site. React + Vite, deployed on Vercel at
-**[paramshah77.vercel.app](https://portfolio-param-bice.vercel.app/)**.
+**[portfolio-paramshah.vercel.app](https://portfolio-paramshah.vercel.app/)**.
 
 Includes NEXUS, an AI copilot that answers questions about my background,
 backed by Gemini through a serverless proxy.
