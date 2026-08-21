@@ -48,20 +48,21 @@ function allowedOrigins() {
     return process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean);
   }
   return [
-    'https://portfolio-paramshah.vercel.app',
+    'https://paramshahportfolio.vercel.app',
     'http://localhost:5173',
     'http://localhost:4173',
   ];
 }
 
 // Preview deployments of THIS project only. Vercel names them
-// portfolio-paramshah-<hash>-<scope>.vercel.app, so anchoring on the project
+// paramshahportfolio-<hash>-<scope>.vercel.app, so anchoring on the project
 // slug keeps the door shut on every other *.vercel.app site — an unanchored
 // wildcard would let anyone's deployment spend this project's Gemini quota.
 //
-// The retired portfolio-param-bice alias is deliberately absent: it 308s to
-// the canonical host, so the browser reports the canonical origin, not it.
-const PREVIEW_ORIGIN = /^https:\/\/portfolio-paramshah-[a-z0-9-]+\.vercel\.app$/;
+// Retired aliases (portfolio-param-bice, portfolio-paramshah) are deliberately
+// absent: they 308 to the canonical host, so the browser reports the canonical
+// origin, not the alias.
+const PREVIEW_ORIGIN = /^https:\/\/paramshahportfolio-[a-z0-9-]+\.vercel\.app$/;
 
 function isAllowedOrigin(origin) {
   if (!origin) return true; // same-origin fetches often omit Origin

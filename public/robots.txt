@@ -4,4 +4,4 @@ Allow: /
 # The chat proxy is not content — no reason to crawl it.
 Disallow: /api/
 
-Sitemap: https://portfolio-paramshah.vercel.app/sitemap.xml
+Sitemap: https://paramshahportfolio.vercel.app/sitemap.xml
