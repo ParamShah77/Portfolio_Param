@@ -31,5 +31,5 @@ dist-ssr
 *.sln
 *.sw?
 
-# Claude Code machine-local settings
-.claude/settings.local.json
+# Local tool/editor config
+.claude/

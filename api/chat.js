@@ -59,9 +59,10 @@ function allowedOrigins() {
 // slug keeps the door shut on every other *.vercel.app site — an unanchored
 // wildcard would let anyone's deployment spend this project's Gemini quota.
 //
-// Retired aliases (portfolio-param-bice, portfolio-paramshah) are deliberately
-// absent: they 308 to the canonical host, so the browser reports the canonical
-// origin, not the alias.
+// Retired hosts (portfolio-param-bice, portfolio-paramshah) are deliberately
+// absent, and nothing needs to be added for them: they are not aliases of this
+// deployment and do not redirect here, so no browser will ever present them as
+// an Origin. If one is ever pointed back at this project, add it here.
 const PREVIEW_ORIGIN = /^https:\/\/paramshahportfolio-[a-z0-9-]+\.vercel\.app$/;
 
 function isAllowedOrigin(origin) {
