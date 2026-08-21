@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
-import { FiMail, FiMapPin } from "react-icons/fi";
+import { FiMail, FiMapPin, FiDownload } from "react-icons/fi";
 import emailjs from "@emailjs/browser";
 
 /*
@@ -90,9 +90,22 @@ export default function Contact() {
           <h2 className="mb-3 text-3xl font-bold text-white md:text-5xl">
             Let&apos;s <span className="text-[#f97316]">Connect</span>
           </h2>
-          <p className="text-[#9ca3af] text-lg">
-            Have an idea or a project in mind? I&apos;d love to hear about it.
+          {/* Framed for hiring, not freelance — everything else on the site
+              (Barclays, placement coordinator, graduating 2027) says the
+              audience is a recruiter, not a client with a project brief. */}
+          <p className="text-lg text-[#9ca3af]">
+            Final-year Computer Engineering student at SPIT Mumbai, open to
+            SDE and ML roles from mid-2027 — and to internships before then.
+            I usually reply within a day or two.
           </p>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[#f97316]/50 px-4 py-2 text-sm font-medium text-[#f97316] transition-colors duration-300 hover:bg-[#f97316]/10"
+          >
+            <FiDownload /> Download résumé
+          </a>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-5 lg:gap-12">
@@ -200,7 +213,6 @@ export default function Contact() {
                   autoComplete="name"
                   className="w-full rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] px-4 py-3 text-sm text-white outline-none transition-all duration-300 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/50"
                   placeholder="John Doe"
-                  aria-label="Your name"
                 />
               </div>
 
@@ -221,7 +233,6 @@ export default function Contact() {
                   autoComplete="email"
                   className="w-full rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] px-4 py-3 text-sm text-white outline-none transition-all duration-300 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/50"
                   placeholder="john@example.com"
-                  aria-label="Your email"
                 />
               </div>
             </div>
@@ -242,31 +253,39 @@ export default function Contact() {
                 required
                 className="w-full resize-none rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] px-4 py-3 text-sm text-white outline-none transition-all duration-300 focus:border-[#f97316] focus:ring-1 focus:ring-[#f97316]/50"
                 placeholder="What are you working on?"
-                aria-label="Your message"
               />
             </div>
 
+            {/* The button stays mounted in every state. It used to be swapped
+                for a <div> on success — which unmounted the element that had
+                focus, dropping the user back to the top of the document. */}
             <div className="relative z-10 pt-2">
-              {status === "success" ? (
-                <div className="w-full rounded-xl bg-green-500/10 py-4 text-center text-sm font-bold text-green-400 border border-green-500/20">
-                  ✓ Message successfully delivered!
-                </div>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="w-full rounded-xl bg-[#f97316] py-4 text-sm font-bold tracking-wide text-white transition-all duration-300 hover:bg-[#fb923c] hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] disabled:opacity-50"
-                  aria-label="Send message"
-                >
-                  {status === "sending" ? "Sending..." : "Send Message"}
-                </button>
-              )}
+              <button
+                type="submit"
+                disabled={status === "sending" || status === "success"}
+                className="w-full rounded-xl bg-[#f97316] py-4 text-sm font-bold tracking-wide text-[#0a0a0a] transition-all duration-300 hover:bg-[#fb923c] hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] disabled:opacity-60"
+              >
+                {status === "sending"
+                  ? "Sending..."
+                  : status === "success"
+                    ? "✓ Message sent"
+                    : "Send Message"}
+              </button>
 
-              {status === "error" && (
-                <p className="mt-4 text-center text-sm text-red-500">
-                  Oops! Something went wrong. Please try again.
-                </p>
-              )}
+              {/* Live region so a screen reader announces the outcome; the
+                  previous version gave no audible feedback at all. */}
+              <p
+                role="status"
+                aria-live="polite"
+                className={`mt-4 text-center text-sm ${
+                  status === "error" ? "text-red-400" : "text-green-400"
+                }`}
+              >
+                {status === "success" &&
+                  "Message successfully delivered. I'll get back to you soon."}
+                {status === "error" &&
+                  "Something went wrong. Please try again, or email me directly."}
+              </p>
             </div>
           </motion.form>
         </div>

@@ -3,6 +3,7 @@ import globals from 'globals'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
@@ -15,6 +16,10 @@ export default defineConfig([
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      // Catches the class of bug this codebase had shipped: missing labels on
+      // icon-only controls, aria-labels shadowing visible text, click handlers
+      // on non-interactive elements.
+      jsxA11y.flatConfigs.recommended,
     ],
     plugins: { react },
     languageOptions: {

@@ -40,7 +40,10 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` computes overflow-y to `auto`, making these
+     scroll containers, which stops position:sticky in Projects from ever
+     sticking. `clip` crops the same way without creating one. */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -77,14 +80,28 @@ body {
   background-color: #0a0a0a;
   color: #e5e5e5;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
 #root {
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   position: relative;
+}
+
+/*
+  Focus ring. There was no focus styling anywhere outside three Contact inputs,
+  so every nav link, CTA, social icon and project link fell back to the browser
+  default hairline on a near-black background.
+
+  :focus-visible rather than :focus, so it appears for keyboard and not on
+  mouse clicks — which is the bug the Contact inputs still had.
+*/
+:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Custom scrollbar */
@@ -138,11 +155,6 @@ body {
 }
 
 /* Loading bar animation */
-@keyframes loadBar {
-  0% { width: 0%; }
-  100% { width: 100%; }
-}
-
 /*
  * Entrance fade for the resume page.
  *
@@ -233,15 +245,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 28px;
-  box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7);
-  animation: nexusPulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
   pointer-events: none;
-}
-
-@keyframes nexusPulse {
-  to {
-    box-shadow: 0 0 0 20px rgba(249, 115, 22, 0);
-  }
 }
 
 /* Chat Panel */
@@ -329,7 +333,7 @@ body {
   background: transparent;
   border: none;
   color: #9ca3af;
-  cursor: none;
+  cursor: pointer;
   padding: 4px;
   display: flex;
   align-items: center;
@@ -440,7 +444,7 @@ body {
   padding: 6px 12px;
   border-radius: 100px;
   font-size: 12px;
-  cursor: none; /* custom cursor */
+  cursor: pointer;
   transition: all 0.2s;
   text-align: left;
 }
@@ -482,7 +486,7 @@ body {
 }
 
 .nexus-input::placeholder {
-  color: #6b7280;
+  color: #9ca3af;
 }
 
 .nexus-send-btn {
@@ -495,7 +499,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none;
+  cursor: pointer;
   flex-shrink: 0;
   transition: all 0.2s;
 }
@@ -514,7 +518,7 @@ body {
 .nexus-footer-note {
   text-align: center;
   font-size: 10px;
-  color: #6b7280;
+  color: #9ca3af;
   padding: 8px 0 12px;
   margin: 0;
   background: rgba(20, 20, 20, 0.9);

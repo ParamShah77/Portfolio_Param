@@ -14,7 +14,7 @@ const projects = [
       "Monte Carlo",
       "SHAP",
     ],
-    github: "#",
+    github: "",
     deployed: false,
     deployedUrl: "",
     image: "https://placehold.co/600x400/1a1a1a/f97316?text=Financial Intelligence System",
@@ -43,7 +43,7 @@ const projects = [
       "Gemini API",
       "REST APIs",
     ],
-    github: "#",
+    github: "https://github.com/ParamShah77/CareerPath360",
     deployed: true,
     deployedUrl: "https://careerpath360.onrender.com/",
     image: "https://placehold.co/600x400/1a1a1a/f97316?text=CareerPath360.AI",
@@ -68,7 +68,7 @@ const projects = [
       "Express.js",
       "Gemini API",
     ],
-    github: "#",
+    github: "",
     deployed: false,
     deployedUrl: "",
     image:
@@ -94,7 +94,7 @@ const projects = [
       "Seaborn",
       "Tkinter",
     ],
-    github: "#",
+    github: "",
     deployed: false,
     deployedUrl: "",
     image:
@@ -112,7 +112,7 @@ const projects = [
     description:
       "A full-stack web-based franchise management system with multi-role dashboards (Admin, Distributor, Franchise Owner, Customer). Built on a 3NF MySQL schema with secure session handling and role-based access.",
     tech: ["MySQL", "HTML", "CSS", "PHP", "XAMPP"],
-    github: "#",
+    github: "",
     deployed: false,
     deployedUrl: "",
     image:

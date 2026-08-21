@@ -146,8 +146,7 @@ export default function Home() {
                   .querySelector("#projects")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              className="rounded-lg bg-[#f97316] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#fb923c] hover:shadow-lg hover:shadow-orange-500/20"
-              aria-label="View projects"
+              className="rounded-lg bg-[#f97316] px-6 py-3 text-sm font-semibold text-[#0a0a0a] transition-all duration-300 hover:bg-[#fb923c] hover:shadow-lg hover:shadow-orange-500/20"
             >
               View Projects
             </button>
@@ -156,7 +155,6 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg border border-[#f97316] px-6 py-3 text-sm font-semibold text-[#f97316] transition-all duration-300 hover:bg-[#f97316]/10"
-              aria-label="Download resume"
             >
               Download Resume
             </a>

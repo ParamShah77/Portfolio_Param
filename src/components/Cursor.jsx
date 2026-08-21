@@ -16,8 +16,12 @@ export default function Cursor() {
   }, []);
 
   useEffect(() => {
+    // Assigned further down, once the rAF loop is defined.
+    let kick = () => {};
+
     const handleMove = (e) => {
       mouse.current = { x: e.clientX, y: e.clientY };
+      kick();
       if (dotRef.current) {
         dotRef.current.style.left = `${e.clientX}px`;
         dotRef.current.style.top = `${e.clientY}px`;
@@ -47,19 +51,50 @@ export default function Cursor() {
     document.addEventListener("mouseover", handleOver);
     document.addEventListener("mouseout", handleOut);
 
-    // Ring lerp animation
-    let animId;
+    /*
+     * Ring lerp — and crucially, it stops.
+     *
+     * An exponential approach never exactly reaches its target, so the old
+     * loop ran at 60fps for the whole session even with the pointer parked.
+     * Once we're within half a pixel we snap, cancel, and wait; the next
+     * mousemove restarts it.
+     *
+     * Position stays on left/top rather than transform because React owns the
+     * inline `transform` on this element (it carries the hover/click scale),
+     * and the two would overwrite each other on every re-render.
+     */
+    let animId = null;
     const lerp = (a, b, f) => a + (b - a) * f;
+
     const animate = () => {
+      const dx = mouse.current.x - ringPos.current.x;
+      const dy = mouse.current.y - ringPos.current.y;
+
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        ringPos.current.x = mouse.current.x;
+        ringPos.current.y = mouse.current.y;
+        paint();
+        animId = null; // settled — stop burning frames
+        return;
+      }
+
       ringPos.current.x = lerp(ringPos.current.x, mouse.current.x, 0.12);
       ringPos.current.y = lerp(ringPos.current.y, mouse.current.y, 0.12);
+      paint();
+      animId = requestAnimationFrame(animate);
+    };
+
+    function paint() {
       if (ringRef.current) {
         ringRef.current.style.left = `${ringPos.current.x}px`;
         ringRef.current.style.top = `${ringPos.current.y}px`;
       }
-      animId = requestAnimationFrame(animate);
+    }
+
+    kick = () => {
+      if (animId === null) animId = requestAnimationFrame(animate);
     };
-    animId = requestAnimationFrame(animate);
+    kick();
 
     return () => {
       window.removeEventListener("mousemove", handleMove);

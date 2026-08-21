@@ -1,4 +1,4 @@
-import { useRef, useEffect, lazy, Suspense } from "react";
+import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { usePrefersReducedMotion } from "../../hooks/useMediaQuery";
 
@@ -20,7 +20,41 @@ export default function Hero3D() {
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
   const translateY = useTransform(scrollY, [0, 400], [0, -80]);
 
+  /*
+   * The WebGL scene is the most expensive thing on the page, so it only runs
+   * while it is actually on screen and the tab is in front. BackgroundCanvas
+   * already reasoned this way ("Don't burn frames on a background canvas
+   * nobody is looking at") — the 3D scene never got the same treatment.
+   */
+  const [sceneActive, setSceneActive] = useState(true);
+
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    let onScreen = true;
+    const sync = () => setSceneActive(onScreen && !document.hidden);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0 },
+    );
+    io.observe(el);
+    document.addEventListener("visibilitychange", sync);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
+  }, []);
+
+  useEffect(() => {
+    // No point tracking the pointer for a scene that isn't rendering.
+    if (!sceneActive) return;
+
     /* normalise pointer coords to [-1, 1] */
     const track = (clientX, clientY) => {
       const { innerWidth: w, innerHeight: h } = window;
@@ -42,7 +76,7 @@ export default function Hero3D() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, []);
+  }, [sceneActive]);
 
   return (
     <motion.section
@@ -73,7 +107,10 @@ export default function Hero3D() {
           transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
           className="absolute top-[12%] text-center"
         >
-          <h1
+          {/* A <p>, not an <h1>. This is the decorative display treatment of
+              the name; the real document heading lives in Home. Two <h1>s on
+              one page is an SEO and screen-reader problem. */}
+          <p
             className="text-6xl md:text-7xl lg:text-8xl tracking-wide px-8 py-4 leading-normal"
             style={{
               fontFamily: "'Pacifico', cursive",
@@ -84,14 +121,14 @@ export default function Hero3D() {
             }}
           >
             Param Shah
-          </h1>
+          </p>
         </motion.div>
       </div>
 
       {/* ── Three.js Canvas (code-split) ── */}
       <div className="h-screen w-full">
         <Suspense fallback={null}>
-          <HeroScene mousePos={mousePos} reducedMotion={reducedMotion} />
+          <HeroScene active={sceneActive} mousePos={mousePos} reducedMotion={reducedMotion} />
         </Suspense>
       </div>
     </motion.section>

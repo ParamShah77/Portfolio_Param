@@ -181,6 +181,7 @@ function MessageBubble({ msg }) {
 // ---------------------------------------------------------------------------
 export default function NexusChat() {
   const [open, setOpen] = useState(false);
+  const fabRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -201,6 +202,20 @@ export default function NexusChat() {
     window.addEventListener("toggleNexusChat", handleToggle);
     return () => window.removeEventListener("toggleNexusChat", handleToggle);
   }, []);
+
+  // Escape closes the panel and returns focus to the launcher. On mobile this
+  // is a full-screen dialog, so without it there was no keyboard way out.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        fabRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   // Focus input when panel opens and show greeting
   useEffect(() => {
@@ -333,6 +348,7 @@ export default function NexusChat() {
         id="nexus-chat-trigger"
         aria-label="Open NEXUS AI Copilot"
         className={`nexus-fab ${open ? 'nexus-fab-open' : 'nexus-fab-closed'}`}
+        ref={fabRef}
         onClick={() => setOpen((v) => !v)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -375,6 +391,7 @@ export default function NexusChat() {
           <motion.div
             id="nexus-chat-panel"
             role="dialog"
+            aria-modal="true"
             aria-label="NEXUS AI Copilot chat"
             className="nexus-panel"
             initial={{ opacity: 0, y: 32, scale: 0.93 }}

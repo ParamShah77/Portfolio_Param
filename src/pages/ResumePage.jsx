@@ -34,7 +34,6 @@ const SKILLS_DATA = (() => {
       "MongoDB",
       "PostgreSQL",
       "Git",
-      "GitHub",
       "Maven",
       "Linux",
     ],
@@ -60,8 +59,11 @@ const SKILLS_DATA = (() => {
   for (const [, items] of Object.entries(categoryMap)) {
     items.forEach((item) => {
       const norm = normalized(item);
-      if (!knownNames.has(norm)) {
-        console.warn(`Resume page skill "${item}" is missing from the technical skills database.`);
+      // Authoring aid only — never warn real visitors in production.
+      if (import.meta.env.DEV && !knownNames.has(norm)) {
+        console.warn(
+          `Resume page skill "${item}" is missing from the technical skills database.`,
+        );
       }
     });
   }
@@ -108,7 +110,7 @@ export default function ResumePage() {
             <FiArrowLeft />
             Back
           </Link>
-          <h1 className="hidden text-sm font-semibold text-white sm:block">
+          <h1 className="sr-only text-sm font-semibold text-white sm:not-sr-only sm:block">
             Param Nikhil Shah — Resume
           </h1>
           <div className="flex items-center gap-3">

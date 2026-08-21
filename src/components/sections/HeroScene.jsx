@@ -325,12 +325,19 @@ function Scene({ mousePos, reducedMotion }) {
 /* ─────────────────────────────────────────────
    Canvas wrapper — the lazily-loaded entry point
 ───────────────────────────────────────────── */
-export default function HeroScene({ mousePos, reducedMotion }) {
+export default function HeroScene({ mousePos, reducedMotion, active = true }) {
   return (
     <Canvas
       shadows
       camera={{ position: [0, 0.3, 5.5], fov: 42 }}
       gl={{ antialias: true, alpha: true }}
+      // frameloop="never" while the hero is off-screen or the tab is hidden.
+      // Without this the scene kept rendering 35 shadowed meshes forever —
+      // an avatar waving at nobody while you read the footer.
+      frameloop={active ? "always" : "never"}
+      // Uncapped DPR meant a 3x phone rendered 9x the pixels for a decorative
+      // avatar. 1.5 is indistinguishable here and far cheaper.
+      dpr={[1, 1.5]}
       style={{ background: "transparent" }}
     >
       <Suspense fallback={null}>

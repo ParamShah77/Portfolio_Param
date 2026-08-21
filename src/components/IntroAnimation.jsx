@@ -1,22 +1,40 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 
+// This plays on every visit, so it has to be short. Three typed lines and a
+// bar that genuinely fills — the old version typed a pre-filled "100% loaded"
+// bar character by character, which cost ~2s to render something fake.
 const LINES = [
   { prompt: true, text: "initializing Param Shah..." },
-  {
-    prompt: true,
-    text: "loading: B.Tech Computer Engineering @ SPIT, Mumbai  ✓",
-  },
-  {
-    prompt: true,
-    text: "passion: building systems that bridge code and reality",
-  },
-  { prompt: false, text: "status: [████████████████████] 100% loaded" },
+  { prompt: true, text: "B.Tech Computer Engineering @ SPIT Mumbai" },
+  { bar: true },
   { prompt: true, text: "Welcome." },
 ];
 
-const TYPE_SPEED = 40; // ms per character
-const LINE_PAUSE = 400; // ms between lines
+const TYPE_SPEED = 16; // ms per character
+const LINE_PAUSE = 220; // ms between lines
+const BAR_DURATION = 850; // ms for the progress bar to fill
+const BAR_SEGMENTS = 20;
+const HOLD_AFTER = 400; // ms on the finished frame before fading out
+
+/** Block-character progress bar that actually fills, driven by `value` (0..1). */
+function ProgressBar({ value }) {
+  const filled = Math.round(value * BAR_SEGMENTS);
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-[#f97316]">{">"} </span>
+      <span className="tracking-[0.05em] text-[#f97316]">
+        {"█".repeat(filled)}
+        <span className="text-[#2a2a2a]">
+          {"█".repeat(BAR_SEGMENTS - filled)}
+        </span>
+      </span>
+      <span className="tabular-nums text-[#9ca3af]">
+        {Math.round(value * 100)}%
+      </span>
+    </div>
+  );
+}
 
 export default function IntroAnimation({ onComplete }) {
   const [phase, setPhase] = useState("particles"); // particles | terminal | fadeout | done
@@ -26,6 +44,7 @@ export default function IntroAnimation({ onComplete }) {
   const [currentLine, setCurrentLine] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
+  const [barProgress, setBarProgress] = useState(0);
   const overlayRef = useRef(null);
   const particlesRef = useRef([]);
   const animFrameRef = useRef(null);
@@ -61,8 +80,8 @@ export default function IntroAnimation({ onComplete }) {
     particlesRef.current = particles;
 
     const startTime = Date.now();
-    const EXPLODE_DURATION = 1500;
-    const IMPLODE_START = 1100;
+    const EXPLODE_DURATION = 1000;
+    const IMPLODE_START = 700;
 
     const draw = () => {
       const elapsed = Date.now() - startTime;
@@ -89,7 +108,7 @@ export default function IntroAnimation({ onComplete }) {
         ctx.fill();
       });
 
-      if (elapsed < EXPLODE_DURATION + 200) {
+      if (elapsed < EXPLODE_DURATION + 150) {
         animFrameRef.current = requestAnimationFrame(draw);
       } else {
         setPhase("terminal");
@@ -112,23 +131,52 @@ export default function IntroAnimation({ onComplete }) {
       gsap.fromTo(
         terminalRef.current,
         { scale: 0, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.4)" }
+        { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.4)" }
       );
     }
   }, [phase]);
+
+  // Progress bar fill — runs when the current line is the bar, then advances.
+  useEffect(() => {
+    if (phase !== "terminal") return;
+    const line = LINES[currentLine];
+    if (!line || !line.bar) return;
+
+    let raf;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / BAR_DURATION, 1);
+      setBarProgress(t);
+      if (t < 1) {
+        raf = requestAnimationFrame(step);
+      } else {
+        phaseTimerRef.current = setTimeout(() => {
+          setTypedLines((prev) => [...prev, { ...line, done: true }]);
+          setCurrentLine((l) => l + 1);
+          setCurrentChar(0);
+        }, LINE_PAUSE);
+      }
+    };
+    raf = requestAnimationFrame(step);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      if (phaseTimerRef.current) clearTimeout(phaseTimerRef.current);
+    };
+  }, [phase, currentLine]);
 
   // Typing logic
   useEffect(() => {
     if (phase !== "terminal") return;
     if (currentLine >= LINES.length) {
-      // All lines typed — pause, then fade out
+      // All lines done — brief hold, then fade out
       phaseTimerRef.current = setTimeout(() => {
         setPhase("fadeout");
-      }, 1000);
+      }, HOLD_AFTER);
       return;
     }
 
     const line = LINES[currentLine];
+    if (line.bar) return; // handled by the bar effect above
     const fullText = line.text;
 
     if (currentChar < fullText.length) {
@@ -147,11 +195,13 @@ export default function IntroAnimation({ onComplete }) {
     }
   }, [phase, currentLine, currentChar]);
 
-  // Cursor blink
+  // Cursor blink — gated on the terminal phase; it previously had no
+  // dependency and kept toggling state every 500ms through every phase.
   useEffect(() => {
+    if (phase !== "terminal") return;
     const interval = setInterval(() => setShowCursor((v) => !v), 500);
     return () => clearInterval(interval);
-  }, []);
+  }, [phase]);
 
   // Fade out
   useEffect(() => {
@@ -159,7 +209,7 @@ export default function IntroAnimation({ onComplete }) {
     if (overlayRef.current) {
       gsap.to(overlayRef.current, {
         opacity: 0,
-        duration: 0.8,
+        duration: 0.5,
         onComplete: () => {
           setPhase("done");
           onComplete();
@@ -171,9 +221,10 @@ export default function IntroAnimation({ onComplete }) {
   if (phase === "done") return null;
 
   const currentLineData = LINES[currentLine];
-  const partialText = currentLineData
-    ? currentLineData.text.slice(0, currentChar)
-    : "";
+  const partialText =
+    currentLineData && currentLineData.text
+      ? currentLineData.text.slice(0, currentChar)
+      : "";
 
   return (
     <div
@@ -202,31 +253,38 @@ export default function IntroAnimation({ onComplete }) {
           </div>
 
           <div className="mt-4 space-y-1.5 text-sm leading-relaxed">
-            {/* Already typed lines */}
-            {typedLines.map((line, i) => (
-              <div key={i}>
-                {line.prompt && (
-                  <span className="text-[#f97316]">{">"} </span>
-                )}
-                <span className="text-[#e5e5e5]">{line.text}</span>
-              </div>
-            ))}
-
-            {/* Currently typing line */}
-            {currentLine < LINES.length && (
-              <div>
-                {currentLineData.prompt && (
-                  <span className="text-[#f97316]">{">"} </span>
-                )}
-                <span className="text-[#e5e5e5]">{partialText}</span>
-                <span
-                  className="text-[#f97316]"
-                  style={{ opacity: showCursor ? 1 : 0 }}
-                >
-                  █
-                </span>
-              </div>
+            {/* Already finished lines */}
+            {typedLines.map((line, i) =>
+              line.bar ? (
+                <ProgressBar key={i} value={1} />
+              ) : (
+                <div key={i}>
+                  {line.prompt && (
+                    <span className="text-[#f97316]">{">"} </span>
+                  )}
+                  <span className="text-[#e5e5e5]">{line.text}</span>
+                </div>
+              ),
             )}
+
+            {/* The line in progress — either filling or typing */}
+            {currentLine < LINES.length &&
+              (currentLineData.bar ? (
+                <ProgressBar value={barProgress} />
+              ) : (
+                <div>
+                  {currentLineData.prompt && (
+                    <span className="text-[#f97316]">{">"} </span>
+                  )}
+                  <span className="text-[#e5e5e5]">{partialText}</span>
+                  <span
+                    className="text-[#f97316]"
+                    style={{ opacity: showCursor ? 1 : 0 }}
+                  >
+                    █
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
       )}

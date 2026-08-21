@@ -29,8 +29,6 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-const TECH_STACK = ["React", "Three.js", "Tailwind CSS", "Framer Motion"];
-
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -57,11 +55,12 @@ export default function Footer() {
               onClick={scrollToTop}
               className="mb-6 text-2xl font-bold tracking-wider text-[#f97316]"
               style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              aria-label="Scroll to top"
             >
               PS
             </button>
             <p className="mb-6 max-w-sm text-sm leading-relaxed text-[#9ca3af]">
-              Building digital experiences that combine solid engineering with beautiful design. Open to new opportunities.
+              Final-year Computer Engineering student at SPIT Mumbai. Building full-stack and AI systems — open to SDE and ML roles from mid-2027.
             </p>
             <div className="flex gap-4">
               {SOCIALS.map((social) => {

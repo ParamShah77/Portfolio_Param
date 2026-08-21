@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
@@ -17,8 +17,12 @@ function SparkleIcon({ className = "" }) {
   );
 }
 
+// "Home" points at #hero — the actual top of the page. It used to point at
+// #home, the second screen, which meant clicking Home left you 100vh down and
+// no nav item was highlighted while the first screen was on show.
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
+  { label: "Home", href: "#hero" },
+  { label: "About", href: "#home" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
@@ -29,6 +33,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,6 +64,20 @@ export default function Navbar() {
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, [location.pathname]);
+
+  // Escape closes the mobile menu and hands focus back to the button that
+  // opened it, so keyboard users aren't stranded behind an open panel.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
 
   const handleNavClick = (href) => {
     setMobileOpen(false);
@@ -117,7 +136,9 @@ export default function Navbar() {
                   ? "text-[#f97316]"
                   : "text-[#9ca3af] hover:text-[#e5e5e5]"
               }`}
-              aria-label={`Navigate to ${link.label}`}
+              aria-current={
+                activeSection === link.href.slice(1) ? "true" : undefined
+              }
             >
               {link.label}
             </button>
@@ -129,25 +150,30 @@ export default function Navbar() {
                 ? "text-[#f97316]"
                 : "text-[#9ca3af] hover:text-[#e5e5e5]"
             }`}
-            aria-label="Navigate to Resume page"
           >
             Resume
           </Link>
+          {/* Same weight as every other nav item. It used to carry a permanent
+              glow and a pill background, which made the chatbot louder than
+              the work it talks about. */}
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("toggleNexusChat"))}
-            className="flex items-center gap-2 rounded-full bg-[#f97316]/15 px-4 py-1.5 text-sm font-semibold text-[#f97316] transition-all hover:bg-[#f97316]/25 hover:shadow-[0_0_16px_rgba(249,115,22,0.6)]"
-            style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
+            className="flex items-center gap-1.5 text-sm font-medium text-[#9ca3af] transition-colors duration-300 hover:text-[#f97316]"
           >
             <SparkleIcon className="text-base" /> NEXUS
           </button>
         </div>
 
         {/* Mobile hamburger */}
+        {/* -mr-2 keeps the icon optically aligned while p-2 takes the tap
+            target from 24px to 44px. */}
         <button
-          className="text-2xl text-[#e5e5e5] md:hidden"
+          ref={menuButtonRef}
+          className="-mr-2 p-2 text-2xl text-[#e5e5e5] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           {mobileOpen ? <HiX /> : <HiMenuAlt3 />}
         </button>
@@ -157,6 +183,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -172,7 +199,9 @@ export default function Navbar() {
                     ? "text-[#f97316]"
                     : "text-[#9ca3af]"
                 }`}
-                aria-label={`Navigate to ${link.label}`}
+                aria-current={
+                  activeSection === link.href.slice(1) ? "true" : undefined
+                }
               >
                 {link.label}
               </button>
@@ -181,7 +210,6 @@ export default function Navbar() {
               to="/resume"
               className="block w-full py-3 text-left text-sm font-medium text-[#9ca3af] transition-colors duration-300 hover:text-[#f97316]"
               onClick={() => setMobileOpen(false)}
-              aria-label="Navigate to Resume page"
             >
               Resume
             </Link>
@@ -190,8 +218,7 @@ export default function Navbar() {
                 setMobileOpen(false);
                 window.dispatchEvent(new CustomEvent("toggleNexusChat"));
               }}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#f97316]/15 py-3 text-sm font-semibold text-[#f97316] transition-all"
-              style={{ boxShadow: "0 0 10px rgba(249, 115, 22, 0.4)" }}
+              className="flex w-full items-center gap-1.5 py-3 text-left text-sm font-medium text-[#9ca3af] transition-colors duration-300 hover:text-[#f97316]"
             >
               <SparkleIcon className="text-base" /> NEXUS
             </button>
