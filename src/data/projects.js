@@ -1,10 +1,11 @@
 const projects = [
   {
     id: 6,
-    name: "FOLIUM: Explainable Causal Intelligence for Behavioural Bias in Investing",
+    name: "FOLIUM",
+    subtitle: "Explainable Causal Intelligence for Behavioural Bias in Investing",
     date: "Feb 2026 – Oct 2026",
     description:
-      "A full-stack platform that detects behavioural bias at the moment an investor decides to sell. An XGBoost engine (87.9% accuracy, 0.84 Macro F1) with per-prediction SHAP attributions and DoWhy causal inference quantifies how much each bias drives a decision, a Monte Carlo simulator projects HOLD vs SELL after-tax wealth, and a bilingual explainable-AI layer is backed by a SHA-256 hash-chained audit trail.",
+      "Detects behavioural bias at the moment an investor decides to sell. XGBoost with SHAP attributions and DoWhy causal inference quantify what drives each decision, a Monte Carlo simulator projects HOLD vs SELL wealth, and a bilingual explainable-AI layer sits on a tamper-evident audit trail.",
     tech: [
       "Python",
       "FastAPI",
@@ -29,10 +30,11 @@ const projects = [
   },
   {
     id: 7,
-    name: "ARCHON: AI Engineering Intelligence Platform",
+    name: "ARCHON",
+    subtitle: "AI Engineering Intelligence Platform",
     date: "Sep 2026 – Oct 2026",
     description:
-      "An AI platform that turns a codebase into a navigable, queryable graph. A FastAPI backend uses tree-sitter to parse 6 languages into a cross-file graph of imports, calls and inheritance, then layers cited codebase chat, security / performance / tech-debt analyzers and 13 AI tools for debugging, change-impact scoring, test generation and code review on top of it, with an interactive Next.js code map.",
+      "Turns a codebase into a navigable, queryable graph. tree-sitter parses 6 languages into a cross-file code graph that powers cited codebase chat, security and tech-debt analyzers, 13 AI debugging and review tools, and an interactive Next.js code map.",
     tech: [
       "Python",
       "FastAPI",

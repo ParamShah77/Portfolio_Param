@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Pinned project cards only have room for the bullet list on tall viewports. */
+@custom-variant tall (@media (min-height: 900px));
+
 @theme {
   --color-dark: #0a0a0a;
   --color-card: #141414;

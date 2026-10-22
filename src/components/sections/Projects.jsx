@@ -59,6 +59,11 @@ function ProjectCard({ project, flipped, compact }) {
           <h3 className="mb-2 bg-gradient-to-r from-white via-white to-[#f97316] bg-clip-text text-xl font-bold text-transparent md:text-3xl">
             {project.name}
           </h3>
+          {project.subtitle && (
+            <p className="mb-1 text-xs leading-snug text-[#e5e5e5]/80 md:text-sm">
+              {project.subtitle}
+            </p>
+          )}
           <p className="mb-2 font-mono text-xs tracking-wider text-[#9ca3af] md:mb-4">
             {project.date}
           </p>
@@ -89,9 +94,11 @@ function ProjectCard({ project, flipped, compact }) {
 
           {/* The résumé page already renders these bullets; the main page only
               ever showed the one-line description, so the more detailed
-              version lived on the page fewer people visit. */}
+              version lived on the page fewer people visit. They only show on
+              tall viewports: the pinned card is one viewport high, and with
+              bullets it overflowed the slot into the section heading. */}
           {!compact && project.bullets?.length > 0 && (
-            <ul className="mb-6 hidden space-y-1.5 lg:block">
+            <ul className="mb-6 hidden space-y-1.5 lg:tall:block">
               {project.bullets.slice(0, 3).map((b) => (
                 <li
                   key={b}

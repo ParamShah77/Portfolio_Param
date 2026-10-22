@@ -274,7 +274,11 @@ export default function ResumePage() {
                 className="rounded-xl border border-[#2a2a2a] bg-[#141414] p-5"
               >
                 <div className="mb-2 flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                  <h4 className="font-bold text-white">{project.name}</h4>
+                  <h4 className="font-bold text-white">
+                    {project.subtitle
+                      ? `${project.name}: ${project.subtitle}`
+                      : project.name}
+                  </h4>
                   <span className="text-xs text-[#9ca3af]">
                     {project.date}
                   </span>
