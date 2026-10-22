@@ -16,36 +16,69 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 // Build resume skills from the shared skills data source
 const SKILLS_DATA = (() => {
   const categoryMap = {
-    Languages: ["Java", "Python", "JavaScript", "C", "HTML", "CSS"],
+    Languages: [
+      "Java",
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "C",
+      "SQL",
+      "HTML",
+      "CSS",
+    ],
     "Frameworks & Libraries": [
-      "React.js",
       "Spring Boot",
+      "Thymeleaf",
+      "React.js",
+      "Next.js",
       "Node.js",
       "Express.js",
       "FastAPI",
-      "Thymeleaf",
-      "REST API",
       "Tailwind CSS",
+      "Jinja2",
       "NumPy",
       "Pandas",
     ],
+    "AI/ML": [
+      "XGBoost",
+      "DoWhy",
+      "SHAP",
+      "Sentence Transformers (BERT)",
+      "Monte Carlo Simulation",
+      "AutoGen",
+    ],
     "Databases & Tools": [
+      "PostgreSQL",
       "MySQL",
       "MongoDB",
-      "PostgreSQL",
+      "SQLite",
+      "Redis",
       "Git",
+      "GitHub",
       "Maven",
+      "pytest",
+      "tree-sitter",
+    ],
+    "Cloud & DevOps": [
+      "Render",
+      "Vercel",
+      "Docker",
+      "Docker Compose",
+      "CI/CD",
       "Linux",
+      "PuTTY",
+      "WinSCP",
     ],
     "Core Concepts": [
       "Data Structures and Algorithms",
       "Object-Oriented Programming",
       "Operating Systems",
       "Computer Networks",
-      "Agile Development",
       "Database Management Systems",
-      "NLP",
       "Machine Learning",
+      "RESTful APIs",
+      "JWT/OAuth2",
+      "Agile Development",
     ],
   };
   // Validate that listed skills actually exist in the shared data
@@ -54,6 +87,10 @@ const SKILLS_DATA = (() => {
     if (name === "HTML") return "HTML5";
     if (name === "CSS") return "CSS3";
     if (name === "Data Structures and Algorithms") return "Data Structures";
+    if (name === "Sentence Transformers (BERT)") return "Sentence Transformers";
+    if (name === "Monte Carlo Simulation") return "Monte Carlo";
+    if (name === "Docker Compose") return "Docker";
+    if (name === "RESTful APIs") return "REST API";
     return name;
   };
   for (const [, items] of Object.entries(categoryMap)) {
@@ -206,11 +243,11 @@ export default function ResumePage() {
                   Sardar Patel Institute of Technology (S.P.I.T.)
                 </h4>
                 <p className="text-sm text-[#9ca3af]">
-                  Bachelors of Computer Engineering • Minor in Internet of Things
+                  Bachelor of Technology in Computer Engineering • Minor in Internet of Things
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-medium text-[#f97316]">CGPA: 8.29</p>
+                <p className="text-sm font-medium text-[#f97316]">CGPA: 8.26</p>
                 <p className="text-xs text-[#9ca3af]">Aug 2023 – 2027 (expected)</p>
               </div>
             </div>

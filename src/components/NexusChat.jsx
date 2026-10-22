@@ -28,7 +28,7 @@ const CHIP_SETS = [
     "What's his strongest skill?",
   ],
   [
-    "Tell me about CareerPath360.AI",
+    "Tell me about ARCHON 🧭",
     "What's his GPA / academics?",
     "What leadership roles has he held?",
   ],

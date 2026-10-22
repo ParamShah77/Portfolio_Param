@@ -119,7 +119,7 @@ export default function Home() {
 
           {/* Summary */}
           <p className="mb-6 max-w-lg leading-relaxed text-[#9ca3af]">
-            Hey, I'm Param — a final-year Computer Engineering student at SPIT, Mumbai, with a minor in IoT. I most recently spent my summer at Barclays as a Technology Intern, building Spring Boot services and REST APIs in Pune. I love building things that actually work — from full-stack web apps to AI-powered systems. My core interests lie in DSA, Competitive Programming, and Full Stack Development, but I'm always exploring — whether it's cloud, ML, or blockchain. I'm someone who doesn't just learn concepts, but finds ways to wire them together into real projects. If it can be built, I want to build it.
+            Hey, I'm Param — a final-year Computer Engineering student at SPIT, Mumbai, with a minor in IoT. I most recently spent my summer at Barclays as a Technology Intern, building an application-health dashboard with Spring Boot and REST APIs in Pune. I love building things that actually work — from full-stack web apps to AI-powered systems. My core interests lie in DSA, Competitive Programming, and Full Stack Development, but I'm always exploring — whether it's cloud, ML, or blockchain. I'm someone who doesn't just learn concepts, but finds ways to wire them together into real projects. If it can be built, I want to build it.
           </p>
 
           {/* Education card */}
@@ -134,7 +134,7 @@ export default function Home() {
               B.Tech Computer Engineering • Minor in IoT
             </p>
             <p className="mt-1 text-sm text-[#9ca3af]">
-              CGPA: 8.29 • Aug 2023 – 2027 (expected)
+              CGPA: 8.26 • Aug 2023 – 2027 (expected)
             </p>
           </div>
 

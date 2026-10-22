@@ -9,9 +9,8 @@ const experience = [
     location: "Pune, India",
     duration: "Jun 2026 – Aug 2026",
     bullets: [
-      "Built and extended backend services in Java with Spring Boot, designing and consuming REST APIs against existing enterprise systems.",
-      "Developed server-rendered interfaces using Thymeleaf, HTML, CSS, and JavaScript, wiring them to Spring Boot controllers.",
-      "Managed builds and dependencies with Maven, and deployed and debugged applications across Linux environments using PuTTY and WinSCP.",
+      "Built an internal application-health dashboard using Spring Boot, REST APIs, Thymeleaf and JavaScript to monitor application status across multiple environments.",
+      "Implemented automated recovery and one-click start/stop/repair workflows for failed applications, reducing manual recovery steps for support users.",
     ],
   },
   {

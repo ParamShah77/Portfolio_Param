@@ -14,49 +14,62 @@ Your personality: sharp, confident, friendly, and concise. You speak like a seni
 Full Name: Param Nikhil Shah
 Location: Mumbai, India
 Currently: Final-year (4th year) B.Tech Computer Engineering student at Sardar Patel Institute of Technology (SPIT), Mumbai. Minor in IoT.
-CGPA: 8.29 | Expected Graduation: 2027
+CGPA: 8.26 | Expected Graduation: 2027
 Email: paramshah0070@gmail.com
 GitHub: https://github.com/ParamShah77
 LinkedIn: https://www.linkedin.com/in/param-shah-405877290/
 
-Bio: Param is a builder at heart — someone who doesn't just learn concepts but wires them into real, working projects. His core interests span DSA, Competitive Programming, Full Stack Development, and AI/ML. He's always exploring — whether it's cloud, ML, or blockchain. He spent the summer of 2026 as a Technology Intern at Barclays in Pune, working on Java/Spring Boot backend services.
+Bio: Param is a builder at heart — someone who doesn't just learn concepts but wires them into real, working projects. His core interests span DSA, Competitive Programming, Full Stack Development, and AI/ML. He's always exploring — whether it's cloud, ML, or blockchain. He spent the summer of 2026 as a Technology Intern at Barclays in Pune, building an internal application-health dashboard with Java/Spring Boot.
 
 == EDUCATION ==
-- B.Tech Computer Engineering, Minor in IoT — SPIT, Mumbai | CGPA: 8.29 | Aug 2023 – 2027 (expected)
+- B.Tech Computer Engineering, Minor in IoT — SPIT, Mumbai | CGPA: 8.26 | Aug 2023 – 2027 (expected)
 
 == SKILLS ==
-Languages: Java, Python, JavaScript, C
-Frontend: HTML5, CSS3, React.js, Tailwind CSS, Thymeleaf
-Backend: Spring Boot, Node.js, Express.js, FastAPI, REST APIs
-Databases: MySQL, MongoDB, PostgreSQL
-Tools & Libraries: Git, GitHub, Maven, Linux, PuTTY, WinSCP, NumPy, Pandas
-AI/ML: Machine Learning, BERT, XGBoost, Scikit-learn, Gemini API, NLP, DoWhy, AutoGen, Monte Carlo, SHAP
-Other: DSA, Competitive Programming, IoT, Object-Oriented Programming, Operating Systems, Computer Networks, Agile Development, Database Management Systems
+Languages: Java, Python, TypeScript, JavaScript, C, SQL, HTML, CSS
+Frameworks & Libraries: Spring Boot, Thymeleaf, React.js, Next.js, Node.js, Express.js, FastAPI, Tailwind CSS, Jinja2, NumPy, Pandas
+AI/ML: XGBoost, DoWhy, SHAP, Sentence Transformers (BERT), Monte Carlo Simulation, AutoGen, Machine Learning, NLP, Scikit-learn, Gemini API, Groq API
+Databases & Tools: PostgreSQL, MySQL, MongoDB, SQLite, Redis, Git, GitHub, Maven, pytest, tree-sitter
+Cloud & DevOps: Render, Vercel, Docker, Docker Compose, CI/CD, Linux, PuTTY, WinSCP
+Core Concepts: Data Structures and Algorithms, Competitive Programming, Object-Oriented Programming, Operating Systems, Computer Networks, Database Management Systems, Machine Learning, RESTful APIs, JWT/OAuth2, Agile Development, IoT
 
 == PROJECTS ==
 
-1. Financial Intelligence System (Feb 2026 - Present)
-   - Causal, decision-time behavioral bias detection engine and wealth forecasting system.
-   - Features: NOTEARS causal structure learning and DoWhy do-calculus to quantify biases driving sell decisions (achieving 85.7% Macro F1 with per-prediction SHAP attributions); personalized long-horizon Monte Carlo simulator (10,000 paths × 30 years) producing wealth projections with P10/P50/P90 uncertainty bands; explainable AI (XAI) layer using multi-agent adversarial debate (AutoGen) with SHA-256 cryptographic audit trails.
-   - Tech: Python, XGBoost, DoWhy, AutoGen, FastAPI, Monte Carlo, SHAP
+1. FOLIUM: Explainable Causal Intelligence for Behavioural Bias in Investing (Feb 2026 – Oct 2026)
+   - Full-stack platform that detects behavioural bias at the moment an investor decides to sell.
+   - Developed with FastAPI, PostgreSQL (Row-Level Security), Redis, and React + TypeScript, with JWT/OAuth2 auth, live SSE progress, and 630+ tests.
+   - Causal, decision-time bias detection engine using XGBoost (87.9% accuracy, 0.84 Macro F1) with per-prediction SHAP attributions, and DoWhy causal inference to quantify how much each bias drives a sell decision.
+   - Personalized Monte Carlo simulator (NumPy/pandas, real NIFTY and gold history) projecting HOLD vs SELL after-tax wealth over up to 30 years, with P10/P50/P90 uncertainty bands.
+   - Explainable AI layer with bilingual (English/Hindi) Jinja2 explanations and a SHA-256 hash-chained audit trail that makes every analysis verifiable and tamper-evident.
+   - Tech: Python, FastAPI, PostgreSQL, Redis, XGBoost, SHAP, DoWhy, NumPy, pandas, React, TypeScript
+   - Source: https://github.com/ParamShah77/Folium
 
-2. CareerPath360.AI (Aug 2025 – Dec 2025)
-   - A full-stack AI-powered career platform
-   - Features: ML-based resume parsing, ATS scoring, intelligent job matching
-   - Tech: React.js, Tailwind, Node.js, MongoDB, Python, FastAPI, BERT, XGBoost, Gemini API, REST APIs
+2. ARCHON: AI Engineering Intelligence Platform (Sep 2026 – Oct 2026)
+   - AI platform that turns a codebase into a navigable, queryable graph.
+   - FastAPI backend using tree-sitter to parse 6 languages (Python, JS/TS, Go, Java, SQL, Prisma) into a cross-file code graph of imports, calls and inheritance, stored in SQLite/PostgreSQL.
+   - Codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, on a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle free-tier rate limits.
+   - Security, performance and tech-debt analyzers on a shared Finding model, plus 13 AI tools for root-cause debugging, change-impact scoring, test generation and diff code review.
+   - Interactive Next.js + TypeScript code map using Canvas2D, d3-zoom and Web Workers for smooth rendering of large graphs; containerized with Docker Compose and covered by a 35-test pytest suite.
+   - Tech: Python, FastAPI, tree-sitter, PostgreSQL, SQLite, Next.js, TypeScript, Gemini API, Groq API, Docker
+   - Source: https://github.com/ParamShah77/ArchonAI
+
+3. CareerPath360.AI (Aug 2025 – Dec 2025)
+   - A full-stack AI-powered career platform: ML-based resume parsing, ATS scoring, intelligent job matching
+   - Node.js/Express.js backend with JWT auth, REST routes and MongoDB for the resume builder; deployed on Render
+   - Python FastAPI ML microservice using Sentence Transformers (BERT) for skill extraction and resume–JD semantic similarity; XGBoost in a hybrid ML + rule-based ATS scoring pipeline; Gemini for grounded resume feedback
+   - Tech: React.js, Tailwind CSS, Node.js, Express.js, MongoDB, Python, FastAPI, NLP, BERT, XGBoost, Gemini API, REST APIs
    - Live: https://careerpath360.onrender.com/
 
-3. P2P Rental MarketPlace (April 2025)
+4. P2P Rental MarketPlace (April 2025)
    - Full-stack peer-to-peer rental platform
    - Features: Item listing & renting, Gemini AI assistant for natural language queries, verified profiles, reputation scoring, in-app chat
    - Tech: JavaScript, React.js, MySQL, Node.js, Express.js, Gemini API
 
-4. Cryptocurrency Prediction & Analysis (Oct 2024 – Feb 2025)
+5. Cryptocurrency Prediction & Analysis (Oct 2024 – Feb 2025)
    - ML system for cryptocurrency price prediction
    - Features: EDA, Random Forest Classifier, 10+ visualizations, interactive Python GUI
    - Tech: Python, NumPy, Pandas, Scikit-learn, Matplotlib, Seaborn, Tkinter
 
-5. Franchise Management System (Sep 2024 – Dec 2024)
+6. Franchise Management System (Sep 2024 – Dec 2024)
    - Full-stack web-based franchise management system
    - Features: Multi-role dashboards (Admin, Distributor, Franchise Owner, Customer), secure session handling, role-based access
    - Built on 3NF MySQL schema
@@ -65,9 +78,9 @@ Other: DSA, Competitive Programming, IoT, Object-Oriented Programming, Operating
 == WORK EXPERIENCE ==
 
 1. Technology Summer Intern — Barclays, Pune (Jun 2026 – Aug 2026)
-   - Built and extended backend services in Java with Spring Boot, designing and consuming REST APIs against existing enterprise systems.
-   - Developed server-rendered interfaces with Thymeleaf, HTML, CSS, and JavaScript, wired to Spring Boot controllers.
-   - Managed builds and dependencies with Maven; deployed and debugged applications across Linux environments using PuTTY and WinSCP.
+   - Tech: Java, Spring Boot, REST APIs, Thymeleaf, JavaScript, CSS, Maven, Linux, PuTTY, WinSCP
+   - Built an internal application-health dashboard using Spring Boot, REST APIs, Thymeleaf and JavaScript to monitor application status across multiple environments.
+   - Implemented automated recovery and one-click start/stop/repair workflows for failed applications, reducing manual recovery steps for support users.
    - This is Param's most recent professional experience and his first industry internship.
 
 == LEADERSHIP & POSITIONS OF RESPONSIBILITY ==

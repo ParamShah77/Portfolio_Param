@@ -1,27 +1,59 @@
 const projects = [
   {
-    id: 5,
-    name: "Financial Intelligence System",
-    date: "Feb 2026 – Present",
+    id: 6,
+    name: "FOLIUM: Explainable Causal Intelligence for Behavioural Bias in Investing",
+    date: "Feb 2026 – Oct 2026",
     description:
-      "A causal, decision-time behavioral bias detection engine and wealth forecasting system. Features NOTEARS causal structure learning and DoWhy do-calculus to quantify biases driving sell decisions (achieving 85.7% Macro F1), a personalized long-horizon Monte Carlo simulator (10,000 paths × 30 years) for hold vs. sell projections, and an explainable AI layer using multi-agent adversarial debate (AutoGen) with SHA-256 cryptographic audit trails.",
+      "A full-stack platform that detects behavioural bias at the moment an investor decides to sell. An XGBoost engine (87.9% accuracy, 0.84 Macro F1) with per-prediction SHAP attributions and DoWhy causal inference quantifies how much each bias drives a decision, a Monte Carlo simulator projects HOLD vs SELL after-tax wealth, and a bilingual explainable-AI layer is backed by a SHA-256 hash-chained audit trail.",
     tech: [
       "Python",
-      "XGBoost",
-      "DoWhy",
-      "AutoGen",
       "FastAPI",
-      "Monte Carlo",
+      "PostgreSQL",
+      "Redis",
+      "XGBoost",
       "SHAP",
+      "DoWhy",
+      "React",
+      "TypeScript",
     ],
-    github: "",
+    github: "https://github.com/ParamShah77/Folium",
     deployed: false,
     deployedUrl: "",
-    image: "https://placehold.co/600x400/1a1a1a/f97316?text=Financial Intelligence System",
+    image: "https://placehold.co/600x400/1a1a1a/f97316?text=FOLIUM",
     bullets: [
-      "Engineered a causal, decision-time behavioral bias detection engine, the only system that intervenes at the exact moment an investor decides, not retrospectively. Used NOTEARS causal structure learning and DoWhy do-calculus to quantify how much each bias causally drives a sell decision, achieving 85.7% Macro F1 with per-prediction SHAP attributions, filling a gap no existing robo-advisor addresses.",
-      "Engineered a personalised long-horizon Monte Carlo simulator (10,000 paths × 30 years) producing individual HOLD vs SELL wealth projections with P10/P50/P90 uncertainty bands, personalised to age, risk tolerance, and financial obligations.",
-      "Architected a decision-centric Explainable AI layer using a multi-agent adversarial debate system (AutoGen) that replaces static SHAP/LIME explanations with counterfactual narratives grounded in Monte Carlo simulation numbers paired with a blockchain-style SHA-256 cryptographic audit trail making every AI decision independently verifiable and tamper-evident."
+      "Developed the full-stack platform with FastAPI, PostgreSQL (Row-Level Security), Redis, and React + TypeScript, with JWT/OAuth2 auth, live SSE progress, and 630+ tests.",
+      "Engineered a causal, decision-time behavioral bias detection engine using XGBoost (87.9% accuracy, 0.84 Macro F1) with per-prediction SHAP attributions, and DoWhy causal inference to quantify how much each bias drives a sell decision.",
+      "Built a personalized Monte Carlo simulator (NumPy/pandas, real NIFTY and gold history) projecting HOLD vs SELL after-tax wealth over up to 30 years, with P10/P50/P90 uncertainty bands.",
+      "Designed an Explainable AI layer with bilingual (English/Hindi) Jinja2 explanations and a SHA-256 hash-chained audit trail that makes every analysis verifiable and tamper-evident."
+    ]
+  },
+  {
+    id: 7,
+    name: "ARCHON: AI Engineering Intelligence Platform",
+    date: "Sep 2026 – Oct 2026",
+    description:
+      "An AI platform that turns a codebase into a navigable, queryable graph. A FastAPI backend uses tree-sitter to parse 6 languages into a cross-file graph of imports, calls and inheritance, then layers cited codebase chat, security / performance / tech-debt analyzers and 13 AI tools for debugging, change-impact scoring, test generation and code review on top of it, with an interactive Next.js code map.",
+    tech: [
+      "Python",
+      "FastAPI",
+      "tree-sitter",
+      "PostgreSQL",
+      "SQLite",
+      "Next.js",
+      "TypeScript",
+      "Gemini API",
+      "Groq API",
+      "Docker",
+    ],
+    github: "https://github.com/ParamShah77/ArchonAI",
+    deployed: false,
+    deployedUrl: "",
+    image: "https://placehold.co/600x400/1a1a1a/f97316?text=ARCHON",
+    bullets: [
+      "Built a FastAPI backend using tree-sitter to parse 6 languages (Python, JS/TS, Go, Java, SQL, Prisma) into a cross-file code graph of imports, calls and inheritance, stored in SQLite/PostgreSQL.",
+      "Implemented codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, backed by a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle free-tier rate limits.",
+      "Developed security, performance and tech-debt analyzers on a shared Finding model, plus 13 AI tools for root-cause debugging, change-impact scoring, test generation and diff code review.",
+      "Created an interactive Next.js + TypeScript code map using Canvas2D, d3-zoom and Web Workers for smooth rendering of large graphs; containerized with Docker Compose and covered by a 35-test pytest suite."
     ]
   },
   {
@@ -48,10 +80,9 @@ const projects = [
     deployedUrl: "https://careerpath360.onrender.com/",
     image: "https://placehold.co/600x400/1a1a1a/f97316?text=CareerPath360.AI",
     bullets: [
-      "Designed and developed a Python-based ML microservice using FastAPI and REST APIs for resume parsing, ATS scoring and job matching, integrated with resume builder workflow.",
-      "Used NLP with Sentence Transformers (BERT) and feature engineering for skill extraction and measuring semantic similarity between resumes and job descriptions.",
-      "Trained and integrated an XGBoost model with a hybrid ML + rule-based scoring pipeline, for generating realistic ATS scores with robust fallback mechanisms.",
-      "Incorporated Google Gemini API for context aware, AI-driven career guidance, resume improvement suggestions and intelligent job analysis and matching."
+      "Built the Node.js/Express.js backend with JWT authentication, REST API routes, and MongoDB persistence for the resume builder, and deployed the full-stack app on Render.",
+      "Developed a Python-based ML microservice using FastAPI for resume parsing, ATS scoring, and job matching, applying NLP with Sentence Transformers (BERT) and feature engineering for skill extraction and resume–JD semantic similarity.",
+      "Trained an XGBoost model within a hybrid ML + rule-based scoring pipeline with robust fallbacks for realistic ATS scores, using Gemini for grounded, LLM-based resume feedback."
     ]
   },
   {
