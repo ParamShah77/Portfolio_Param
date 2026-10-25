@@ -15,6 +15,7 @@ const categories = [
       "TypeScript",
       "JavaScript",
       "C",
+      "C++",
       "SQL",
       "HTML5",
       "CSS3",

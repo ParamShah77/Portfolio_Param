@@ -1,5 +1,32 @@
 const projects = [
   {
+    id: 8,
+    name: "vgpu",
+    subtitle: "A Virtual GPU Driver Stack",
+    date: "Oct 2026",
+    description:
+      "A GPU-style resource manager built as a Linux kernel module for a simulated device, with a C++ user-mode runtime on top. It covers VRAM allocation, per-process GPU address spaces, command channels, doorbells, semaphores and a preemptive timeslice scheduler, and the same C core runs in the kernel and in a user-space simulator.",
+    tech: [
+      "C",
+      "C++",
+      "Linux Kernel",
+      "ioctl / mmap",
+      "CMake",
+      "Python",
+      "ASan / TSan",
+    ],
+    github: "https://github.com/ParamShah77/Virtual-GPU-Driver",
+    deployed: false,
+    deployedUrl: "",
+    image: "https://placehold.co/600x400/1a1a1a/f97316?text=vgpu",
+    bullets: [
+      "Built a Linux kernel module (misc device, ioctl ABI, mmap of VRAM, per-engine kthreads, /proc stats) around an OS-agnostic C resource-manager core, with a bitmap page allocator and 2-level GPU page tables with guard pages and scrub-on-alloc.",
+      "Designed a deterministic per-engine scheduler with priority-scaled timeslices and chunk-granular mid-command preemption, keeping a 16 MiB memset on a low-priority channel within 1.018 ms of a 1 ms slice budget; three clients at LOW/NORMAL/HIGH priority received 12.9% / 30.0% / 57.1% of the copy engine against a 1:2:4 timeslice ratio.",
+      "Added doorbell-less command submission using a lock-free ring and an io_uring SQPOLL-style need_doorbell handshake, cutting 3000 ioctls to 1 per 3000 back-to-back submits and median submit-to-fence latency from 1.1 µs to 0.2 µs.",
+      "Wrote a C++ RAII user runtime (Device / Buffer / Channel) and a 24-test suite that runs identically against the kernel module and the in-process simulator, clean under ASan, UBSan and ThreadSanitizer, plus latency, bandwidth and fairness benchmarks with a Gantt trace plotter."
+    ]
+  },
+  {
     id: 6,
     name: "FOLIUM",
     subtitle: "Explainable Causal Intelligence for Behavioural Bias in Investing",
