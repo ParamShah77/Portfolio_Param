@@ -9,8 +9,9 @@ const experience = [
     location: "Pune, India",
     duration: "Jun 2026 – Aug 2026",
     bullets: [
-      "Built an internal application-health dashboard using Spring Boot, REST APIs, Thymeleaf and JavaScript to monitor application status across multiple environments.",
-      "Implemented automated recovery and one-click start/stop/repair workflows for failed applications, reducing manual recovery steps for support users.",
+      "Wrote Linux shell scripts to start, stop, and automatically restart applications, creating an auto-recovery framework that detects failures and replaces manual restarts.",
+      "Built an application-health dashboard using Spring Boot, REST APIs, Thymeleaf, and JavaScript to monitor 16+ applications across multiple environments in one view.",
+      "Designed one-click start, stop, and restart controls so teams could manage applications from the dashboard, reducing the time and effort needed to act.",
     ],
   },
   {

@@ -14,22 +14,24 @@ Your personality: sharp, confident, friendly, and concise. You speak like a seni
 Full Name: Param Nikhil Shah
 Location: Mumbai, India
 Currently: Final-year (4th year) B.Tech Computer Engineering student at Sardar Patel Institute of Technology (SPIT), Mumbai. Minor in IoT.
-CGPA: 8.26 | Expected Graduation: 2027
+CGPA: 8.26 | Expected Graduation: July 2027
 Email: paramshah0070@gmail.com
 GitHub: https://github.com/ParamShah77
 LinkedIn: https://www.linkedin.com/in/param-shah-405877290/
 
-Bio: Param is a builder at heart — someone who doesn't just learn concepts but wires them into real, working projects. His core interests span DSA, Competitive Programming, Full Stack Development, and AI/ML. He's always exploring — whether it's cloud, ML, or blockchain. He spent the summer of 2026 as a Technology Intern at Barclays in Pune, building an internal application-health dashboard with Java/Spring Boot.
+Bio: Param is a builder at heart — someone who doesn't just learn concepts but wires them into real, working projects. His core interests span DSA, Competitive Programming, Full Stack Development, and AI/ML. He's always exploring — whether it's cloud, ML, or blockchain. He spent the summer of 2026 as a Technology Intern at Barclays in Pune, building a Spring Boot dashboard for 16+ applications and automating recovery with Linux shell scripts.
 
 == EDUCATION ==
-- B.Tech Computer Engineering, Minor in IoT — SPIT, Mumbai | CGPA: 8.26 | Aug 2023 – 2027 (expected)
+- B.Tech Computer Engineering, Minor in IoT — SPIT, Mumbai | CGPA: 8.26 | Aug 2023 – Jul 2027 (expected)
+
+Relevant coursework: Data Structures and Algorithms, Operating Systems, Computer Architecture and Organization, Object-Oriented Programming, and Computer Networks.
 
 == SKILLS ==
 Languages: Java, Python, TypeScript, JavaScript, C, C++, SQL, HTML, CSS
 Frameworks & Libraries: Spring Boot, Thymeleaf, React.js, Next.js, Node.js, Express.js, FastAPI, Tailwind CSS, Jinja2, NumPy, Pandas
 AI/ML: XGBoost, DoWhy, SHAP, Sentence Transformers (BERT), Monte Carlo Simulation, AutoGen, Machine Learning, NLP, Scikit-learn, Gemini API, Groq API
 Databases & Tools: PostgreSQL, MySQL, MongoDB, SQLite, Redis, Git, GitHub, Maven, pytest, tree-sitter
-Cloud & DevOps: Render, Vercel, Docker, Docker Compose, CI/CD, Linux, PuTTY, WinSCP
+Cloud & DevOps: Render, Vercel, Docker, Docker Compose, CI/CD, Linux, Linux Shell Scripting, PuTTY, WinSCP
 Core Concepts: Data Structures and Algorithms, Competitive Programming, Object-Oriented Programming, Operating Systems, Computer Networks, Database Management Systems, Machine Learning, RESTful APIs, JWT/OAuth2, Agile Development, IoT
 
 == PROJECTS ==
@@ -43,8 +45,8 @@ Core Concepts: Data Structures and Algorithms, Competitive Programming, Object-O
    - Tech: C, C++, Linux kernel module, ioctl/mmap, CMake, Python, ASan/TSan
    - Source: https://github.com/ParamShah77/Virtual-GPU-Driver
 
-2. FOLIUM: Explainable Causal Intelligence for Behavioural Bias in Investing (Feb 2026 – Oct 2026)
-   - Full-stack platform that detects behavioural bias at the moment an investor decides to sell.
+2. FOLIUM: Explainable Causal Intelligence for Behavioral Bias in Investing (Feb 2026 – Oct 2026)
+   - Full-stack platform that detects behavioral bias at the moment an investor decides to sell.
    - Developed with FastAPI, PostgreSQL (Row-Level Security), Redis, and React + TypeScript, with JWT/OAuth2 auth, live SSE progress, and 630+ tests.
    - Causal, decision-time bias detection engine using XGBoost (87.9% accuracy, 0.84 Macro F1) with per-prediction SHAP attributions, and DoWhy causal inference to quantify how much each bias drives a sell decision.
    - Personalized Monte Carlo simulator (NumPy/pandas, real NIFTY and gold history) projecting HOLD vs SELL after-tax wealth over up to 30 years, with P10/P50/P90 uncertainty bands.
@@ -55,7 +57,7 @@ Core Concepts: Data Structures and Algorithms, Competitive Programming, Object-O
 3. ARCHON: AI Engineering Intelligence Platform (Sep 2026 – Oct 2026)
    - AI platform that turns a codebase into a navigable, queryable graph.
    - FastAPI backend using tree-sitter to parse 6 languages (Python, JS/TS, Go, Java, SQL, Prisma) into a cross-file code graph of imports, calls and inheritance, stored in SQLite/PostgreSQL.
-   - Codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, on a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle free-tier rate limits.
+   - Codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, on a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle API rate limits.
    - Security, performance and tech-debt analyzers on a shared Finding model, plus 13 AI tools for root-cause debugging, change-impact scoring, test generation and diff code review.
    - Interactive Next.js + TypeScript code map using Canvas2D, d3-zoom and Web Workers for smooth rendering of large graphs; containerized with Docker Compose and covered by a 35-test pytest suite.
    - Tech: Python, FastAPI, tree-sitter, PostgreSQL, SQLite, Next.js, TypeScript, Gemini API, Groq API, Docker
@@ -88,8 +90,9 @@ Core Concepts: Data Structures and Algorithms, Competitive Programming, Object-O
 
 1. Technology Summer Intern — Barclays, Pune (Jun 2026 – Aug 2026)
    - Tech: Java, Spring Boot, REST APIs, Thymeleaf, JavaScript, CSS, Maven, Linux, PuTTY, WinSCP
-   - Built an internal application-health dashboard using Spring Boot, REST APIs, Thymeleaf and JavaScript to monitor application status across multiple environments.
-   - Implemented automated recovery and one-click start/stop/repair workflows for failed applications, reducing manual recovery steps for support users.
+   - Wrote Linux shell scripts to start, stop, and automatically restart applications, creating an auto-recovery framework that detects failures and replaces manual restarts.
+   - Built an application-health dashboard using Spring Boot, REST APIs, Thymeleaf, and JavaScript to monitor 16+ applications across multiple environments in one view.
+   - Designed one-click start, stop, and restart controls so teams could manage applications from the dashboard, reducing the time and effort needed to act.
    - This is Param's most recent professional experience and his first industry internship.
 
 == LEADERSHIP & POSITIONS OF RESPONSIBILITY ==

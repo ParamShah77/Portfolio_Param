@@ -29,10 +29,10 @@ const projects = [
   {
     id: 6,
     name: "FOLIUM",
-    subtitle: "Explainable Causal Intelligence for Behavioural Bias in Investing",
+    subtitle: "Explainable Causal Intelligence for Behavioral Bias in Investing",
     date: "Feb 2026 – Oct 2026",
     description:
-      "Detects behavioural bias at the moment an investor decides to sell. XGBoost with SHAP attributions and DoWhy causal inference quantify what drives each decision, a Monte Carlo simulator projects HOLD vs SELL wealth, and a bilingual explainable-AI layer sits on a tamper-evident audit trail.",
+      "Detects behavioral bias at the moment an investor decides to sell. XGBoost with SHAP attributions and DoWhy causal inference quantify what drives each decision, a Monte Carlo simulator projects HOLD vs SELL wealth, and a bilingual explainable-AI layer sits on a tamper-evident audit trail.",
     tech: [
       "Python",
       "FastAPI",
@@ -41,6 +41,8 @@ const projects = [
       "XGBoost",
       "SHAP",
       "DoWhy",
+      "NumPy",
+      "Pandas",
       "React",
       "TypeScript",
     ],
@@ -80,7 +82,7 @@ const projects = [
     image: "https://placehold.co/600x400/1a1a1a/f97316?text=ARCHON",
     bullets: [
       "Built a FastAPI backend using tree-sitter to parse 6 languages (Python, JS/TS, Go, Java, SQL, Prisma) into a cross-file code graph of imports, calls and inheritance, stored in SQLite/PostgreSQL.",
-      "Implemented codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, backed by a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle free-tier rate limits.",
+      "Implemented codebase chat with hybrid BM25 + Gemini embedding retrieval and cited answers, backed by a provider-agnostic LLM layer with automatic Gemini/Groq fallback to handle API rate limits.",
       "Developed security, performance and tech-debt analyzers on a shared Finding model, plus 13 AI tools for root-cause debugging, change-impact scoring, test generation and diff code review.",
       "Created an interactive Next.js + TypeScript code map using Canvas2D, d3-zoom and Web Workers for smooth rendering of large graphs; containerized with Docker Compose and covered by a 35-test pytest suite."
     ]
@@ -90,10 +92,11 @@ const projects = [
     name: "CareerPath360.AI",
     date: "Aug 2025 – Dec 2025",
     description:
-      "A full-stack AI-powered career platform featuring ML-based resume parsing, ATS scoring, and intelligent job matching. Integrated BERT-based NLP for semantic similarity, XGBoost for scoring, and Google Gemini API for career guidance.",
+      "A full-stack AI-powered career platform featuring resume parsing, ATS scoring, and intelligent job matching. Integrated BERT-based NLP for semantic similarity, XGBoost for scoring, and Google Gemini API for career guidance.",
     tech: [
       "React.js",
-      "Tailwind",
+      "Tailwind CSS",
+      "Express.js",
       "Node.js",
       "MongoDB",
       "Python",

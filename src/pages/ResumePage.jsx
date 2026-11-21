@@ -66,6 +66,7 @@ const SKILLS_DATA = (() => {
       "Docker Compose",
       "CI/CD",
       "Linux",
+      "Linux Shell Scripting",
       "PuTTY",
       "WinSCP",
     ],
@@ -73,6 +74,7 @@ const SKILLS_DATA = (() => {
       "Data Structures and Algorithms",
       "Object-Oriented Programming",
       "Operating Systems",
+      "Computer Architecture and Organization",
       "Computer Networks",
       "Database Management Systems",
       "Machine Learning",
@@ -248,9 +250,10 @@ export default function ResumePage() {
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium text-[#f97316]">CGPA: 8.26</p>
-                <p className="text-xs text-[#9ca3af]">Aug 2023 – 2027 (expected)</p>
+                <p className="text-xs text-[#9ca3af]">Aug 2023 – Jul 2027 (expected)</p>
               </div>
             </div>
+            <p className="mt-3 text-sm text-[#9ca3af]">Relevant coursework: Data Structures and Algorithms, Operating Systems, Computer Architecture and Organization, Object-Oriented Programming, and Computer Networks.</p>
           </div>
         </ResumeSection>
 

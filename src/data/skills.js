@@ -76,6 +76,8 @@ const skills = [
   { name: "PostgreSQL", icon: DiPostgresql, color: "#4169E1" },
   { name: "Git", icon: DiGit, color: "#F05032" },
   { name: "Maven", icon: SiApachemaven, color: "#C71A36" },
+  { name: "Linux Shell Scripting", icon: TbTerminal, color: "#FCC624" },
+  { name: "Computer Architecture and Organization", icon: TbCpu, color: "#06B6D4" },
   { name: "Linux", icon: SiLinux, color: "#FCC624" },
   { name: "NumPy", icon: SiNumpy, color: "#4DABCF" },
   { name: "Pandas", icon: SiPandas, color: "#9B8CFF" },
